@@ -15,8 +15,8 @@
 
     <modules>
        <module>chapter_001</module>
-     </modules>
-	 
+	</modules>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.hamcrest</groupId>
@@ -31,7 +31,7 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-	
+
 	<build>
 		<plugins>
 			<plugin>
@@ -55,7 +55,15 @@
 					</execution>
 				</executions>
 			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.3</version>
+				<configuration>
+					<compilerVersion>1.8</compilerVersion>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
-	
 </project>
