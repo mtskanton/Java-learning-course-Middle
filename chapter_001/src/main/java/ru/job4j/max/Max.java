@@ -24,8 +24,7 @@ public class Max {
      * @return одно из внесенных на сравнение чисел
      */
     public int maxOfThree(int first, int second, int third) {
-        int maxOne = max(first, second);
-        int maxTwo = max(first, third);
-        return max(maxOne, maxTwo);
+        int maxOfTwoFirst = max(first, second);
+        return max(maxOfTwoFirst, third);
     }
 }
