@@ -70,9 +70,13 @@ public class Triangle {
      * @param ab Длина от точки a b
      * @param ac Длина от точки a c
      * @param bc Длина от точки b c
-     * @return true если все стороны больше нуля
+     * @return true если сумма любых двух сторон больше третьей стороны
      */
     private boolean exist(double ab, double ac, double bc) {
-        return (ab > 0 && ac > 0 && bc > 0);
+        boolean triangleExist = true;
+        if (((ab + bc) < ac) || ((bc + ac) < ab) || (ab + ac) < bc) {
+            triangleExist = false;
+        }
+        return triangleExist;
     }
 }
