@@ -16,14 +16,14 @@ public class Board {
         StringBuilder sb = new StringBuilder();
         for (int y = 1; y <= height; y++) {
             for (int x = 1; x <= width; x++) {
-                if (y % 2 != 0) {
-                    if (x % 2 != 0) {
+                if (isOdd(y)) {
+                    if (isOdd(x)) {
                         sb.append("x");
                     } else {
                         sb.append(" ");
                     }
                 } else {
-                    if (x % 2 != 0) {
+                    if (isOdd(x)) {
                         sb.append(" ");
                     } else {
                         sb.append("x");
@@ -44,7 +44,7 @@ public class Board {
     public String paintOddWidthBoard(int width, int height) {
         StringBuilder sb = new StringBuilder();
         for (int cell = 1; cell <= (width * height); cell++) {
-            if (cell % 2 != 0) {
+            if (isOdd(cell)) {
                 sb.append("x");
             } else {
                 sb.append(" ");
@@ -54,5 +54,14 @@ public class Board {
             }
         }
         return sb.toString();
+    }
+
+    /**
+     * Проверка на нечетность числа.
+     * @param number число для проверки
+     * @return true если число нечетное
+     */
+    public boolean isOdd(int number) {
+        return (number % 2 != 0);
     }
 }
