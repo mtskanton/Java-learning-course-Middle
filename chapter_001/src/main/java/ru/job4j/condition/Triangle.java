@@ -73,10 +73,6 @@ public class Triangle {
      * @return true если сумма любых двух сторон больше третьей стороны
      */
     private boolean exist(double ab, double ac, double bc) {
-        boolean triangleExist = true;
-        if (((ab + bc) < ac) || ((bc + ac) < ab) || (ab + ac) < bc) {
-            triangleExist = false;
-        }
-        return triangleExist;
+        return (((ab + bc) > ac) && ((bc + ac) > ab) && (ab + ac) > bc);
     }
 }
