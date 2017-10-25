@@ -21,13 +21,19 @@ public class Subword {
         for (int i = 0; i < originToChar.length; i++) {
             //совпадение первой буквы
             if (originToChar[i] == subToChar [0]) {
-                //сравнение двух массивов посимвольно
-                //начиная с первого для субстроки и текущего для оригинальной строки
-                for (int j = 0; j < subToChar.length && i < originToChar.length; j++, i++) {
-                    if (originToChar [i] == subToChar [j]) {
-                        //если досчитали до конца массива субстроки, то совпадение полное
-                        if (subToChar.length == j + 1) {
-                            result = true;
+                //если субстрока один символ, то совпадение полное
+                if (subToChar.length == 1) {
+                    result = true;
+                } else {
+                    //сравнение двух массивов посимвольно
+                    // начиная со второго для субстроки и следующего для оригинальной строки
+                    i++;
+                    for (int j = 1; j < subToChar.length && i < originToChar.length; j++, i++) {
+                        if (originToChar[i] == subToChar[j]) {
+                            //если досчитали до конца массива субстроки, то совпадение полное
+                            if (subToChar.length == j + 1) {
+                                result = true;
+                            }
                         }
                     }
                 }
