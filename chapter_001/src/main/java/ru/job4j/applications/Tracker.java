@@ -47,6 +47,7 @@ public class Tracker {
         for (int i = 0; i < this.position; i++) {
             if (this.items[i].getId().equals(id)) {
                 delIndex = i;
+                position--;
             }
         }
         //проверка на случай удаления последнего элемента массива
@@ -57,7 +58,6 @@ public class Tracker {
                 this.items[j] = null;
             }
         }
-        position--;
     }
 
     /**
@@ -104,4 +104,5 @@ public class Tracker {
         }
         return result;
     }
+
 }
