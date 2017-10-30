@@ -151,14 +151,12 @@ public class StartUI {
         String nameItemToFind = input.getAnswer();
         Item[] itemList = tracker.findByName(nameItemToFind);
         //проверяем, что как минимум один элемент есть
-        if (itemList[0] != null) {
-             for (Item item : itemList) {
-                 if (item != null) {
-                     input.say("Item id: " + item.getId()
-                             + " name: " + item.getName()
-                             + " description: " + item.getDescription()
-                             + " comment: " + item.getComments()[0]);
-                 }
+        if (itemList.length > 0) {
+            for (Item item : itemList) {
+                 input.say("Item id: " + item.getId()
+                         + " name: " + item.getName()
+                         + " description: " + item.getDescription()
+                         + " comment: " + item.getComments()[0]);
             }
         } else {
             input.say("No item found matched: " + nameItemToFind);

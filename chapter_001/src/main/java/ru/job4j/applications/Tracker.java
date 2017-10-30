@@ -38,24 +38,14 @@ public class Tracker {
 
     /**
      * Удаление заявки.
-     * удаляем перемещением всех элементов по индексу на позицию -1 начиная от удаленного
+     * удаляем используя System.arraycopy
      * @param id номер заявки на удаление
      */
     public void delete(String id) {
-        //находим индекс удаленной заявки
-        int delIndex = 0;
         for (int i = 0; i < this.position; i++) {
             if (this.items[i].getId().equals(id)) {
-                delIndex = i;
+                System.arraycopy(items, i + 1, items, i, 100 - i - 1);
                 position--;
-            }
-        }
-        //проверка на случай удаления последнего элемента массива
-        for (int j = delIndex; j < this.position; j++) {
-            if (j != items.length - 1) {
-                this.items[j] = this.items[j + 1];
-            } else {
-                this.items[j] = null;
             }
         }
     }
@@ -82,15 +72,23 @@ public class Tracker {
      * @return список заявок с совпадением
      */
     public Item[] findByName(String key) {
-        Item[] result = new Item[items.length];
-        int i = 0;
-        for (Item item : items) {
-            if (item != null && item.getName().contains(key)) {
-                result[i] = item;
-                i++;
+        Item[] newArray;
+        Item[] arr = new Item[0];
+        int coincidence = 0;
+        for (int i = 0; i < items.length; i++) {
+            if (items[i] != null && items[i].getName().contains(key)) {
+                //Если найден по имени Item создаем массив из 1 элемента.
+                //Если еще найден элемент то создаем массив из 2 элементов копируем элементы из старого массива
+                // и добавляем найденный.
+                newArray = new Item[++coincidence];
+                for (int c = 0; c < coincidence - 1; c++) {
+                    newArray[c] = arr[c];
+                }
+                newArray[coincidence - 1] = items[i];
+                arr = newArray;
             }
         }
-        return result;
+        return arr;
     }
 
     /**
@@ -104,5 +102,4 @@ public class Tracker {
         }
         return result;
     }
-
 }

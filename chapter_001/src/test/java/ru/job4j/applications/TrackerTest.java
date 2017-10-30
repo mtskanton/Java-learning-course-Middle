@@ -48,7 +48,7 @@ public class TrackerTest {
         tracker.delete(item.getId());
         boolean result = false;
         for (Item i : tracker.findAll()) {
-            if (i.getId() == item.getId()) {
+            if (i.getId().equals(item.getId())) {
                 result = true;
             }
         }
