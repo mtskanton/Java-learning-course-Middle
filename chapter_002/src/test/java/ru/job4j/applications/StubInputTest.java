@@ -31,7 +31,9 @@ public class StubInputTest extends OutputTest {
         Input input = new StubInput(new String[]{"1", "6"});
         new StartUI(input, tracker).init();
 
-        String result = "Имя Имя1 Имя2 ";
+        String result = "Item name: Имя description: Описание comment: Комментарий\r\n"
+                        + "Item name: Имя1 description: Описание comment: Комментарий\r\n"
+                        + "Item name: Имя2 description: Описание comment: Комментарий\r\n";
         assertThat(result, is(output.toString()));
     }
 
@@ -76,7 +78,8 @@ public class StubInputTest extends OutputTest {
         Item item = tracker.add(new Item("Имя", "Описание", "Комментарий"));
         Input input = new StubInput(new String[]{"4", item.getId(), "6"});
         new StartUI(input, tracker).init();
-        assertThat("Имя", is(output.toString()));
+        //assertThat("name: Имя description: Описание comment: Комментарий\n", is(output.toString()));
+        assertThat("name: Имя description: Описание comment: Комментарий", is(output.toString()));
     }
 
     /**
@@ -91,7 +94,7 @@ public class StubInputTest extends OutputTest {
         Input input = new StubInput(new String[]{"5", "Имя", "6"});
         new StartUI(input, tracker).init();
 
-        String result = "Имя Имя2 ";
+        String result = "Item name: Имя description: Описание comment: Комментарий\r\nItem name: Имя2 description: Описание comment: Комментарий\r\n";
         assertThat(result, is(output.toString()));
     }
 }
