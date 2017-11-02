@@ -78,7 +78,6 @@ public class StubInputTest extends OutputTest {
         Item item = tracker.add(new Item("Имя", "Описание", "Комментарий"));
         Input input = new StubInput(new String[]{"4", item.getId(), "6"});
         new StartUI(input, tracker).init();
-        //assertThat("name: Имя description: Описание comment: Комментарий\n", is(output.toString()));
         assertThat("name: Имя description: Описание comment: Комментарий", is(output.toString()));
     }
 
