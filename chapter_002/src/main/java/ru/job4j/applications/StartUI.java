@@ -16,7 +16,8 @@ public class StartUI {
     public void init() {
         MenuTracker menu = new MenuTracker(this.input, this.tracker);
         menu.fillActions();
-        while (true) {
+        boolean exit = false;
+        do {
             //Проверка на используемый Input для прохождения тестов, иначе в проверку выводится меню
             if (input instanceof ConsoleInput) {
                 menu.show();
@@ -24,9 +25,10 @@ public class StartUI {
 
             int key = Integer.valueOf(input.ask("Select: "));
             if (key >= 6) {
-                break;
+                exit = true;
+                continue;
             }
             menu.select(key);
-        }
+        } while (!exit);
     }
 }
