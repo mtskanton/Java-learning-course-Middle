@@ -18,6 +18,27 @@ public class ConsoleInput implements Input {
     }
 
     /**
+     * Запрос от пользователя выбора пункта меню.
+     * @param question вопрос
+     * @param range диапазон допустимых значений
+     * @return
+     */
+    public int ask(String question, int[] range) {
+        int key = Integer.valueOf(this.ask(question));
+        boolean exist = false;
+        for (int value : range) {
+            if (key == value) {
+                exist = true;
+                break;
+            }
+        }
+        if (exist) {
+            return key;
+        } else {
+            throw new MenuOutException("Out of menu range");
+        }
+    }
+    /**
      * Отображение меню для пользователя.
      * @return выбор пользователя
      */

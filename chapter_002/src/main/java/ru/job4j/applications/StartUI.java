@@ -19,16 +19,24 @@ public class StartUI {
         boolean exit = false;
         do {
             //Проверка на используемый Input для прохождения тестов, иначе в проверку выводится меню
-            if (input instanceof ConsoleInput) {
+            if (input instanceof ValidateInput) {
                 menu.show();
             }
 
-            int key = Integer.valueOf(input.ask("Select: "));
-            if (key >= 6) {
+            int key = input.ask("Select: ", new int[] {0, 1, 2, 3, 4, 5, 6});
+            if (key == 6) {
                 exit = true;
                 continue;
             }
             menu.select(key);
         } while (!exit);
+    }
+
+    public static void main(String[] args) {
+        Input input = new ValidateInput();
+        Tracker tracker = new Tracker();
+        StartUI sui = new StartUI(input, tracker);
+        sui.init();
+
     }
 }

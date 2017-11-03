@@ -30,4 +30,16 @@ public class StubInput implements Input {
     public String ask(String question) {
         return params[paramsNum++];
     }
+
+    public int ask(String question, int[] range) {
+        int key = Integer.valueOf(this.ask(question));
+        boolean exist = false;
+        for (int value : range) {
+            if (key == value) {
+                exist = true;
+                break;
+            }
+        }
+        return exist ? key : -1;
+    }
 }
