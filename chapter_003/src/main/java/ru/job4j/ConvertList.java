@@ -24,7 +24,7 @@ public class ConvertList {
      * @param rows amount of rows required
      * @return array[][]
      */
-    public int[][] toArray(List<Integer> list, int rows) {
+    public Integer[][] toArray(List<Integer> list, int rows) {
         //add 0 if required
         int numOfNulls = rows - list.size() % rows;
         numOfNulls = (rows - list.size() % rows) == rows ? 0 : numOfNulls;
@@ -35,13 +35,11 @@ public class ConvertList {
         Iterator<Integer> iterator = list.iterator();
 
         int columns = list.size() / rows;
-        int[][] array = new int[rows][columns];
+        Integer[][] array = new Integer[rows][columns];
 
-        while (iterator.hasNext()) {
-            for (int i = 0; i < rows; i++) {
-                for (int j = 0; j < columns; j++) {
-                    array[i][j] = iterator.next();
-                }
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                array[i][j] = iterator.next();
             }
         }
         return array;
