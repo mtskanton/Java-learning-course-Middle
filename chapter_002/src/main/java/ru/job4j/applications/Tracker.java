@@ -8,8 +8,7 @@ public class Tracker {
     /**
      * Список хранимых заявок класса Item.
      */
-    private Item[] items = new Item[100];
-    private int position = 0;
+    private ArrayList<Item> items = new ArrayList<>();
     private static final Random RN = new Random();
 
     /**
@@ -20,7 +19,7 @@ public class Tracker {
     public Item add(Item item) {
         String generatedId = String.valueOf(System.currentTimeMillis() + RN.nextInt());
         item.setId(generatedId);
-        this.items[position++] = item;
+        this.items.add(item);
         return item;
     }
 
@@ -42,10 +41,10 @@ public class Tracker {
      * @param id номер заявки на удаление
      */
     public void delete(String id) {
-        for (int i = 0; i < this.position; i++) {
-            if (this.items[i].getId().equals(id)) {
-                System.arraycopy(items, i + 1, items, i, 100 - i - 1);
-                position--;
+        for (Item i : this.items) {
+            if (i.getId().equals(id)) {
+                this.items.remove(0);
+                break;
             }
         }
     }
@@ -71,35 +70,21 @@ public class Tracker {
      * @param key параментр для поиска
      * @return список заявок с совпадением
      */
-    public Item[] findByName(String key) {
-        Item[] newArray;
-        Item[] arr = new Item[0];
-        int coincidence = 0;
-        for (int i = 0; i < items.length; i++) {
-            if (items[i] != null && items[i].getName().contains(key)) {
-                //Если найден по имени Item создаем массив из 1 элемента.
-                //Если еще найден элемент то создаем массив из 2 элементов копируем элементы из старого массива
-                // и добавляем найденный.
-                newArray = new Item[++coincidence];
-                for (int c = 0; c < coincidence - 1; c++) {
-                    newArray[c] = arr[c];
-                }
-                newArray[coincidence - 1] = items[i];
-                arr = newArray;
+    public ArrayList<Item> findByName(String key) {
+        ArrayList<Item> foundByName = new ArrayList<>();
+        for (Item i : this.items) {
+            if (i.getName().contains(key)) {
+                foundByName.add(i);
             }
         }
-        return arr;
+        return foundByName;
     }
 
     /**
      * Поиск всех заявок.
      * @return все заявки
      */
-    public Item[] findAll() {
-        Item[] result = new Item[this.position];
-        for (int i = 0; i < this.position; i++) {
-            result[i] = this.items[i];
-        }
-        return result;
+    public ArrayList<Item> findAll() {
+        return this.items;
     }
 }

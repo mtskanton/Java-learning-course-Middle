@@ -1,5 +1,7 @@
 package ru.job4j.applications;
 
+import java.util.*;
+
 //класс одного из действий
 class UpdateItem extends BaseActions {
 
@@ -26,7 +28,7 @@ class UpdateItem extends BaseActions {
             System.out.println("Item has been changed. id: " + updatedItem.getId()
                     + " name: " + updatedItem.getName()
                     + " description: " + updatedItem.getDescription()
-                    + " comment: " + updatedItem.getComments()[0]);
+                    + " comment: " + updatedItem.getComments().get(0));
         } else {
             System.out.println("id is incorrect");
         }
@@ -38,7 +40,7 @@ public class MenuTracker {
 
     private Input input;
     private Tracker tracker;
-    private UserAction[] actions = new UserAction[6];
+    private ArrayList<UserAction> actions = new ArrayList<>();
     private int iNumber = 0;
 
     public MenuTracker(Input input, Tracker tracker) {
@@ -48,12 +50,12 @@ public class MenuTracker {
 
     //заполняет меню
     public void fillActions() {
-        this.actions[iNumber++] = this.new AddItem(iNumber + 1, "Add new item");
-        this.actions[iNumber++] = new MenuTracker.ShowAllItems(iNumber + 1, "Show all items");
-        this.actions[iNumber++] = new UpdateItem(iNumber + 1, "Edit item");
-        this.actions[iNumber++] = this.new DeleteItem(iNumber + 1, "Delete item");
-        this.actions[iNumber++] = this.new ShowItemById(iNumber + 1, "Find item by Id");
-        this.actions[iNumber++] = this.new ShowAllFoundByName(iNumber + 1, "Find items by name");
+        this.actions.add(this.new AddItem(++iNumber, "Add new item"));
+        this.actions.add(new MenuTracker.ShowAllItems(++iNumber, "Show all items"));
+        this.actions.add(new UpdateItem(++iNumber, "Edit item"));
+        this.actions.add(this.new DeleteItem(++iNumber, "Delete item"));
+        this.actions.add(this.new ShowItemById(++iNumber, "Find item by Id"));
+        this.actions.add(this.new ShowAllFoundByName(++iNumber, "Find items by name"));
     }
 
     //отображает меню
@@ -68,7 +70,7 @@ public class MenuTracker {
 
     public void select(int key) {
         //в тестах использовалось меню, начиная с нуля. Должно вызываться this.action[key-1]
-        this.actions[key].execute(this.input, this.tracker);
+        this.actions.get(key).execute(this.input, this.tracker);
     }
 
     private class AddItem extends BaseActions {
@@ -90,7 +92,7 @@ public class MenuTracker {
             System.out.println("Item has been added. id: " + addedItem.getId()
                     + " name: " + addedItem.getName()
                     + " description: " + addedItem.getDescription()
-                    + " comment: " + addedItem.getComments()[0]);
+                    + " comment: " + addedItem.getComments().get(0));
         }
     }
 
@@ -105,11 +107,11 @@ public class MenuTracker {
         }
 
         public void execute(Input input, Tracker tracker) {
-            Item[] itemList = tracker.findAll();
+            ArrayList<Item> itemList = tracker.findAll();
             for (Item item : itemList) {
                 System.out.println("Item name: " + item.getName()
                         + " description: " + item.getDescription()
-                        + " comment: " + item.getComments()[0]);
+                        + " comment: " + item.getComments().get(0));
             }
         }
     }
@@ -147,7 +149,7 @@ public class MenuTracker {
             if (foundItem != null) {
                 System.out.print("name: " + foundItem.getName()
                         + " description: " + foundItem.getDescription()
-                        + " comment: " + foundItem.getComments()[0]);
+                        + " comment: " + foundItem.getComments().get(0));
             } else {
                 System.out.println("Item has not been found! Please check id.");
             }
@@ -166,13 +168,13 @@ public class MenuTracker {
 
         public void execute(Input input, Tracker tracker) {
             String nameItemToFind = input.ask("please insert name for searching");
-            Item[] itemList = tracker.findByName(nameItemToFind);
+            ArrayList<Item> itemList = tracker.findByName(nameItemToFind);
             //проверяем, что как минимум один элемент есть
-            if (itemList.length > 0) {
+            if (itemList.size() > 0) {
                 for (Item item : itemList) {
                     System.out.println("Item name: " + item.getName()
                             + " description: " + item.getDescription()
-                            + " comment: " + item.getComments()[0]);
+                            + " comment: " + item.getComments().get(0));
                 }
             } else {
                 System.out.println("No item found matched: " + nameItemToFind);

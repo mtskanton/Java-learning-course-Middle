@@ -16,7 +16,7 @@ public class StubInputTest extends OutputTest {
         Tracker tracker = new Tracker();
         Input input = new StubInput(new String[]{"0", "name", "desc", "comment", "6"});
         new StartUI(input, tracker).init();
-        assertThat(tracker.findAll()[0].getName(), is("name"));
+        assertThat(tracker.findAll().get(0).getName(), is("name"));
     }
 
     /**

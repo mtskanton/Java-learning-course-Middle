@@ -1,5 +1,6 @@
 package ru.job4j.applications;
 
+import java.util.*;
 import org.junit.Test;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -18,7 +19,7 @@ public class TrackerTest {
         Tracker tracker = new Tracker();
         Item item = new Item("Имя", "Описание", "Комментарий");
         tracker.add(item);
-        Item result = tracker.findAll()[0];
+        Item result = tracker.findAll().get(0);
         assertThat(result, is(item));
     }
 
@@ -33,7 +34,7 @@ public class TrackerTest {
         Item changedItem = new Item("Измененное имя", "Описание", "Комментарий");
         changedItem.setId(item.getId());
         tracker.update(changedItem);
-        Item result = tracker.findAll()[0];
+        Item result = tracker.findAll().get(0);
         assertThat(result.getName(), is(changedItem.getName()));
     }
 
@@ -82,8 +83,8 @@ public class TrackerTest {
         tracker.add(item);
         tracker.add(item1);
         tracker.add(item2);
-        Item[] result = tracker.findByName("Имя");
-        assertThat(result[1].getName(), is("Имя2"));
+        ArrayList<Item> result = tracker.findByName("Имя");
+        assertThat(result.get(1).getName(), is("Имя2"));
     }
 
     /**
@@ -98,9 +99,9 @@ public class TrackerTest {
         tracker.add(item);
         tracker.add(item1);
         tracker.add(item2);
-        Item[] result = tracker.findAll();
-        assertThat(result[0].getName(), is("Имя"));
-        assertThat(result[1].getName(), is("Имя1"));
-        assertThat(result[2].getName(), is("Имя2"));
+        ArrayList<Item> result = tracker.findAll();
+        assertThat(result.get(0).getName(), is("Имя"));
+        assertThat(result.get(1).getName(), is("Имя1"));
+        assertThat(result.get(2).getName(), is("Имя2"));
     }
 }

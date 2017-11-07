@@ -1,5 +1,7 @@
 package ru.job4j.applications;
 
+import java.util.*;
+
 /**
  * Класс единицы заявки.
  */
@@ -23,7 +25,7 @@ public class Item {
     /**
      * Список комментариев.
      */
-    private String[] comments = new String[30];
+    private ArrayList<String> comments = new ArrayList<>();
 
     /**
      * Конструктор с инициализацией значений.
@@ -35,7 +37,7 @@ public class Item {
         this.name = name;
         this.desc = description;
         this.created = System.currentTimeMillis();
-        this.comments[0] = comment;
+        this.comments.add(comment);
     }
 
     /**
@@ -98,7 +100,7 @@ public class Item {
      * ПОлучение списка комментариеы.
      * @return список комментариев
      */
-    public String[] getComments() {
+    public ArrayList<String> getComments() {
         return this.comments;
     }
 }
