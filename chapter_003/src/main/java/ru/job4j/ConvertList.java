@@ -1,5 +1,7 @@
 package ru.job4j;
 
+import com.sun.org.apache.xpath.internal.SourceTree;
+
 import java.util.*;
 
 public class ConvertList {
@@ -43,5 +45,21 @@ public class ConvertList {
             }
         }
         return array;
+    }
+
+    /**
+     * Convert arrays List into Integer list.
+     * @param list arrays list
+     * @return Integer list
+     */
+    public List<Integer> convert(List<int[]> list) {
+        List<Integer> convertedList = new ArrayList<>();
+
+        for (int[] l : list) {
+            for (int i = 0; i < l.length; i++) {
+                convertedList.add(l[i]);
+            }
+        }
+        return convertedList;
     }
 }

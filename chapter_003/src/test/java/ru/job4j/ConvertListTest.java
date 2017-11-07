@@ -47,4 +47,21 @@ public class ConvertListTest extends OutputTest {
         String expected = "123\r\n456\r\n700\r\n";
         assertThat(expected, is(output.toString()));
     }
+
+    /**
+     * Convert arrays List into Integer list.
+     */
+    @Test
+    public void whenArraysListWithDifferentAmountOfItemsThenOneIntegerList() {
+        ConvertList cl = new ConvertList();
+        
+        List<int[]> list = new ArrayList<>();
+        list.add(new int[]{1, 2});
+        list.add(new int[]{3, 4, 5, 6});
+        List<Integer> arrList = cl.convert(list);
+        System.out.print(arrList);
+
+        String expected = "[1, 2, 3, 4, 5, 6]";
+        assertThat(expected, is(output.toString()));
+    }
 }
