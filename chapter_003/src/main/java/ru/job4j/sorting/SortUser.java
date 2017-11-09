@@ -12,16 +12,34 @@ public class SortUser {
         return sortedList;
     }
 
-    public static void main(String[] args) {
-        SortUser su = new SortUser();
-        List<User> list = new ArrayList<>();
-        list.addAll(Arrays.asList(
-                new User("Zig", 30),
-                new User("Amber", 20),
-                new User("Bill", 10))
-        );
+    public List<User> sortNameLength(List<User> userList) {
+        Comparator<User> compareByNameLength = new Comparator<User>() {
+            @Override
+            public int compare(User o1, User o2) {
+                return o1.getName().length() - o2.getName().length();
+            }
+        };
 
-        Set<User> sortedList = su.sort(list);
-        System.out.print(sortedList);
+        userList.sort(compareByNameLength);
+        return userList;
+    }
+
+    public List<User> sortByAllFields(List<User> userList) {
+        Comparator<User> compareByName = new Comparator<User>() {
+            @Override
+            public int compare(User o1, User o2) {
+                return o1.getName().compareTo(o2.getName());
+            }
+        };
+
+        Comparator<User> compareByAge = new Comparator<User>() {
+            @Override
+            public int compare(User o1, User o2) {
+                return o1.getAge() - o2.getAge();
+            }
+        };
+
+        userList.sort(compareByName.thenComparing(compareByAge));
+        return userList;
     }
 }

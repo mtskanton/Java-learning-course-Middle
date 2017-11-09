@@ -1,7 +1,5 @@
 package ru.job4j;
 
-import com.sun.org.apache.xpath.internal.SourceTree;
-
 import java.util.*;
 
 public class ConvertList {
