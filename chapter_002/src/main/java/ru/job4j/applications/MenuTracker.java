@@ -28,7 +28,7 @@ class UpdateItem extends BaseActions {
             System.out.println("Item has been changed. id: " + updatedItem.getId()
                     + " name: " + updatedItem.getName()
                     + " description: " + updatedItem.getDescription()
-                    + " comment: " + updatedItem.getComments().get(0));
+                    + " comment: " + updatedItem.getComments().iterator().next());
         } else {
             System.out.println("id is incorrect");
         }
@@ -92,7 +92,7 @@ public class MenuTracker {
             System.out.println("Item has been added. id: " + addedItem.getId()
                     + " name: " + addedItem.getName()
                     + " description: " + addedItem.getDescription()
-                    + " comment: " + addedItem.getComments().get(0));
+                    + " comment: " + addedItem.getComments().iterator().next());
         }
     }
 
@@ -111,7 +111,7 @@ public class MenuTracker {
             for (Item item : itemList) {
                 System.out.println("Item name: " + item.getName()
                         + " description: " + item.getDescription()
-                        + " comment: " + item.getComments().get(0));
+                        + " comment: " + item.getComments().iterator().next());
             }
         }
     }
@@ -149,7 +149,7 @@ public class MenuTracker {
             if (foundItem != null) {
                 System.out.print("name: " + foundItem.getName()
                         + " description: " + foundItem.getDescription()
-                        + " comment: " + foundItem.getComments().get(0));
+                        + " comment: " + foundItem.getComments().iterator().next());
             } else {
                 System.out.println("Item has not been found! Please check id.");
             }
@@ -174,7 +174,7 @@ public class MenuTracker {
                 for (Item item : itemList) {
                     System.out.println("Item name: " + item.getName()
                             + " description: " + item.getDescription()
-                            + " comment: " + item.getComments().get(0));
+                            + " comment: " + item.getComments().iterator().next());
                 }
             } else {
                 System.out.println("No item found matched: " + nameItemToFind);
