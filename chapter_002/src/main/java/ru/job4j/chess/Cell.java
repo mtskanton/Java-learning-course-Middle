@@ -2,11 +2,11 @@ package ru.job4j.chess;
 
 public class Cell {
 
-    int xCord;
-    int yCord;
+    int x;
+    int y;
 
     Cell(int x, int y) {
-        this.xCord = x;
-        this.yCord = y;
+        this.x = x;
+        this.y = y;
     }
 }

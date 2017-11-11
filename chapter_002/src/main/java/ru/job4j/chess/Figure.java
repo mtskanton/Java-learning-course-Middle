@@ -10,9 +10,9 @@ public abstract class Figure {
     abstract boolean occupiedCell(Cell cell);
 }
 
-class Slon extends Figure {
+class Bishop extends Figure {
 
-    Slon(Cell position) {
+    Bishop(Cell position) {
         super(position);
     }
 
@@ -23,7 +23,7 @@ class Slon extends Figure {
      */
     public boolean occupiedCell(Cell cell) {
         boolean result = false;
-        if (position.xCord == cell.xCord && position.yCord == cell.yCord) {
+        if (position.x == cell.x && position.y == cell.y) {
             result = true;
         }
         return result;
@@ -31,12 +31,12 @@ class Slon extends Figure {
 
     /**
      * Клонирование объекта текщего класса с новой позицией.
-     * @param newPosition новая клетка
+     * @param destination новая клетка
      * @return объект текущего класса
      */
-    public Slon clone(Cell newPosition) {
-        System.out.print(String.format("Figure moved to x:%s y:%s", newPosition.xCord, newPosition.yCord));
-        return new Slon(newPosition);
+    public Bishop clone(Cell destination) {
+        System.out.print(String.format("Figure moved to x:%s y:%s", destination.x, destination.y));
+        return new Bishop(destination);
     }
 
     /**
@@ -47,35 +47,35 @@ class Slon extends Figure {
      */
     public Cell[] way(Cell destination) throws ImpossibleMoveException {
 
-        Cell[] cellOnTheWay = null;
+        Cell[] cells = null;
 
         //Проверка правильности заданных координат
-        boolean xValid = 1 <= destination.xCord && destination.xCord <= 8;
-        boolean yValid = 1 <= destination.yCord && destination.yCord <= 8;
+        boolean xValid = 1 <= destination.x && destination.x <= 8;
+        boolean yValid = 1 <= destination.y && destination.y <= 8;
         //Проверка, что фигура может быть передвинута на указанную ячейку
-        boolean wayValid = Math.abs(position.xCord - destination.xCord) == Math.abs(position.yCord - destination.yCord);
+        boolean wayValid = Math.abs(position.x - destination.x) == Math.abs(position.y - destination.y);
 
-        if (xValid && yValid && wayValid) {
-            int amountOfSteps = Math.abs(position.xCord - destination.xCord);
-            cellOnTheWay = new Cell[amountOfSteps];
-            int x = position.xCord;
-            int y = position.yCord;
-            for (int i = 0; i < cellOnTheWay.length; i++) {
-                if (destination.xCord > position.xCord) {
+        if (!(xValid && yValid && wayValid)) {
+            throw new ImpossibleMoveException("Impossible move!");
+        } else {
+            int steps = Math.abs(position.x - destination.x);
+            cells = new Cell[steps];
+            int x = position.x;
+            int y = position.y;
+            for (int i = 0; i < cells.length; i++) {
+                if (destination.x > position.x) {
                     x++;
                 } else {
                     x--;
                 }
-                if (destination.yCord > position.yCord) {
+                if (destination.y > position.y) {
                     y++;
                 } else {
                     y--;
                 }
-                cellOnTheWay[i] = new Cell(x, y);
+                cells[i] = new Cell(x, y);
             }
-        } else {
-            throw new ImpossibleMoveException("Impossible move!");
         }
-        return cellOnTheWay;
+        return cells;
     }
 }
