@@ -15,15 +15,11 @@ public class MatrixIterator implements Iterator {
     }
 
     public boolean hasNext() {
-        int items = 0;
-        for (int[] item : values) {
-            items += item.length;
-        }
-        return items > index;
+        return outer < values.length;
     }
 
     public Object next() throws NoSuchElementException {
-        if (outer > values.length - 1) {
+        if (!hasNext()) {
             throw new NoSuchElementException();
         } else {
             int item = values[outer][inner];
