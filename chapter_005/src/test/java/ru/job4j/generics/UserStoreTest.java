@@ -8,7 +8,7 @@ public class UserStoreTest {
 
     @Test
     public void whenAddUserThenItInTheList() {
-        UserStore<User> us = new UserStore<>(10);
+        UserStore us = new UserStore(10);
         User user = new User();
         user.setId("123");
         user.setName("Name");
@@ -19,7 +19,7 @@ public class UserStoreTest {
 
     @Test(expected = NullPointerException.class)
     public void whenDeleteUserThenItNoMoreInTheList() {
-        UserStore<User> us = new UserStore<>(10);
+        UserStore us = new UserStore(10);
         User user = new User();
         user.setId("123");
         user.setName("Name");
@@ -35,7 +35,7 @@ public class UserStoreTest {
 
     @Test
     public void whenUpdateUserThenAnotherName() {
-        UserStore<User> us = new UserStore<>(10);
+        UserStore us = new UserStore(10);
         User user = new User();
         user.setId("123");
         user.setName("Name");

@@ -1,6 +1,6 @@
 package ru.job4j.generics;
 
-public class UserStore<T extends Base> extends AbstractStore<T> {
+public class UserStore extends AbstractStore<User> {
 
     UserStore(int size) {
         super(size);
