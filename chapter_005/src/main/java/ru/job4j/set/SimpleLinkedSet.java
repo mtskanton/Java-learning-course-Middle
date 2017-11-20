@@ -7,20 +7,9 @@ public class SimpleLinkedSet<E> implements Iterable<E> {
     Node<E> first = null;
     Node<E> last = null;
     private int size = 0;
-    private int index = 0;
 
     public void add(E value) {
-        boolean duplicate = false;
-        Node<E> found = first;
-        for (int i = 0; i < size; i++) {
-            if (found.value.equals(value)) {
-                duplicate = true;
-                break;
-            }
-            found = found.next;
-        }
-
-        if (!duplicate) {
+        if (!duplicate(value)) {
             Node<E> item = new Node<>(last, value, null);
             if (first == null) {
                 first = item;
@@ -32,9 +21,21 @@ public class SimpleLinkedSet<E> implements Iterable<E> {
         }
     }
 
+    private boolean duplicate(E v) {
+        Node<E> found = first;
+        for (int i = 0; i < size; i++) {
+            if (found.value.equals(v)) {
+                return true;
+            }
+            found = found.next;
+        }
+        return false;
+    }
+
     @Override
     public Iterator<E> iterator() {
         return new Iterator<E>() {
+            private int index = 0;
 
             @Override
             public boolean hasNext() {
@@ -54,17 +55,5 @@ public class SimpleLinkedSet<E> implements Iterable<E> {
                 throw new NoSuchElementException();
             }
         };
-    }
-}
-
-class Node<E> {
-    Node<E> prev;
-    Node<E> next;
-    E value;
-
-    Node(Node<E> prev, E value, Node<E> next) {
-        this.prev = prev;
-        this.value = value;
-        this.next = next;
     }
 }
