@@ -23,9 +23,7 @@ public class EvenNumbersIterator implements Iterator {
     }
 
     public Object next() {
-        if (!hasNext()) {
-            throw new NoSuchElementException();
-        } else {
+        if (hasNext()) {
             for (int i = index; i < array.length; i++) {
                 if (array[i] % 2 == 0) {
                     index = i;
@@ -34,5 +32,6 @@ public class EvenNumbersIterator implements Iterator {
             }
             return array[index++];
         }
+        throw new NoSuchElementException();
     }
 }
