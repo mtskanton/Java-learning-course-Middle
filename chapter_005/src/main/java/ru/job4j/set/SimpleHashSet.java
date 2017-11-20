@@ -9,8 +9,11 @@ public class SimpleHashSet<E> {
     boolean add(E value) {
         Entry<E> entry = new Entry(value);
         int index = entry.hash & (capacity - 1);
+        if (table[index] != null) {
+            return false;
+        }
         table[index] = entry;
-        return table[index] != null;
+        return true;
     }
 
     boolean contains(E value) {
@@ -29,16 +32,5 @@ public class SimpleHashSet<E> {
             return true;
         }
         return false;
-    }
-}
-
-class Entry<E> {
-
-    int hash;
-    E value;
-
-    Entry(E value) {
-        this.hash = value.hashCode();
-        this.value = value;
     }
 }
