@@ -1,6 +1,7 @@
 package ru.job4j.list;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class SimpleLinkedList<E> implements Iterable<E> {
     Item<E> first = null;
@@ -46,17 +47,20 @@ public class SimpleLinkedList<E> implements Iterable<E> {
 
             @Override
             public boolean hasNext() {
-                return last.next != null;
+                return index < size;
             }
 
             @Override
             public E next() {
-                Item<E> item = first;
-                for (int i = 0; i < index; i++) {
-                    item = item.next;
+                if (hasNext()) {
+                    Item<E> item = first;
+                    for (int i = 0; i < index; i++) {
+                        item = item.next;
+                    }
+                    index++;
+                    return item.value;
                 }
-                index++;
-                return item.value;
+                throw new NoSuchElementException();
             }
         };
     }

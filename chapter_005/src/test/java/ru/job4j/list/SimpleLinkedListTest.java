@@ -24,14 +24,12 @@ public class SimpleLinkedListTest {
         sll.add(2);
         sll.add(3);
         Iterator<Integer> iterator = sll.iterator();
-        int one = iterator.next();
-        assertThat(one, is(1));
-        int two = iterator.next();
-        assertThat(two, is(2));
-        int three = iterator.next();
-        assertThat(three, is(3));
-        boolean result = iterator.hasNext();
-        assertThat(result, is(false));
+        assertThat(iterator.hasNext(), is(true));
+        assertThat(iterator.hasNext(), is(true));
+        assertThat(iterator.next(), is(1));
+        assertThat(iterator.next(), is(2));
+        assertThat(iterator.next(), is(3));
+        assertThat(iterator.hasNext(), is(false));
     }
 
 }
