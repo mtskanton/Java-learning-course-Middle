@@ -7,12 +7,13 @@ public class SimpleArrayList<T> implements Iterable<T> {
 
     private int size = 0;
     private int index = 0;
-    private Object[] container = new Object[0];
+    private Object[] container = new Object[10];
 
     public void add(T value) {
-        Object[] array = Arrays.copyOf(container, size + 1);
-        array[size++] = value;
-        container = array;
+        if (container.length == size) {
+            container = Arrays.copyOf(container, size * 2);
+        }
+        container[size++] = value;
     }
 
     public T get(int index) {
@@ -24,7 +25,7 @@ public class SimpleArrayList<T> implements Iterable<T> {
         return new Iterator<T>() {
 
             public boolean hasNext() {
-                return size < container.length;
+                return index < size;
             }
 
             public T next() {
