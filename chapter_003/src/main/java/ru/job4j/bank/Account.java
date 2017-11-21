@@ -13,27 +13,23 @@ public class Account {
     }
 
     /**
-     * Операция изменения суммы на счете.
-     * @param amount сумма изменения
-     * @param operation тип операции
-     * @return true если удачно выполнена
+     * Операция пополнения счета.
+     * @param amount сумма
      */
-    boolean changeValue(double amount, char operation) {
-        boolean success = true;
-        switch (operation) {
-            case '+':
-                this.value = this.value + amount;
-                break;
-            case '-':
-                if (this.value >= amount) {
-                    this.value = this.value - amount;
-                } else {
-                    success = false;
-                }
-                break;
-            default:
-                break;
+    void refill(double amount) {
+        this.value = this.value + amount;
+    }
+
+    /**
+     * Операция снятия средств со счета.
+     * @param amount сумма
+     * @return true если запрошенная сумма не меньше имеющегося количества
+     */
+    boolean withdraw(double amount) {
+        if (this.value >= amount) {
+            this.value = this.value - amount;
+            return true;
         }
-        return success;
+        return false;
     }
 }

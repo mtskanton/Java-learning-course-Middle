@@ -23,7 +23,7 @@ public class Bank {
      * @param user пользователь
      */
     void addUser(User user) {
-        List<Account> accounts = new ArrayList<Account>();
+        List<Account> accounts = new ArrayList<>();
         accounts.add(new Account());
         database.put(user, accounts);
     }
@@ -44,7 +44,6 @@ public class Bank {
     void addAccountToUser(User user, Account account) {
         List<Account> accounts = database.get(user);
         accounts.add(account);
-        database.put(user, accounts);
     }
 
     /**
@@ -55,7 +54,6 @@ public class Bank {
     void deleteAccountFromUser(User user, Account account) {
         List<Account> accounts = database.get(user);
         accounts.remove(account);
-        database.put(user, accounts);
     }
 
     /**
@@ -77,32 +75,19 @@ public class Bank {
      * @return true если перевод выполнен успешно
      */
     boolean transferMoney(User srcUser, Account srcAccount, User destUser, Account destAccount, double amount) {
-        boolean success = false;
-        Account source = null;
-        Account destination = null;
 
-        List<Account> srcAccounts = database.get(srcUser);
-        for (Account src : srcAccounts) {
-            if (src.equals(srcAccount)) {
-                source = src;
-                break;
+        List<Account> source = database.get(srcUser);
+        int src = source.indexOf(srcAccount);
+
+        List<Account> destination = database.get(destUser);
+        int dest = destination.indexOf(destAccount);
+
+        if (src >= 0 && dest >= 0) {
+            if (source.get(src).withdraw(amount)) {
+                destination.get(dest).refill(amount);
+                return true;
             }
         }
-
-        List<Account> destAccounts = database.get(destUser);
-        for (Account dest : destAccounts) {
-            if (dest.equals(destAccount)) {
-                destination = dest;
-                break;
-            }
-        }
-
-        if (source != null && destination != null) {
-            success = source.changeValue(amount, '-');
-            if (success) {
-                destination.changeValue(amount, '+');
-            }
-        }
-        return success;
+        return false;
     }
 }
