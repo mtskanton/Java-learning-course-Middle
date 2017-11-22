@@ -27,31 +27,52 @@ public class SimpleTree<E extends Comparable<E>> implements Tree<E> {
         //не допускается добавление дубликатов,
         //поэтому проверяются сперва все, что есть в дереве
         Iterator<E> iterator = this.iterator();
-        while(iterator.hasNext()) {
-            if(iterator.next().compareTo(child) == 0) {
+        while (iterator.hasNext()) {
+            if (iterator.next().compareTo(child) == 0) {
                 return false;
             }
         }
 
-        return addByRecourse(root, parent, child);
+        return addRecursively(root, parent, child);
     }
 
     // служебный метод
     // рекурсия при добавлении элемента
-    private boolean addByRecourse(Node<E> current, E parent, E child) {
+    private boolean addRecursively(Node<E> current, E parent, E child) {
 
-        if(current.value.compareTo(parent) == 0)
-        {
+        if (current.value.compareTo(parent) == 0) {
             current.children.add(new Node(child));
             return true;
         } else {
             for (Node<E> c : current.children) {
-                return addByRecourse(c, parent, child);
+                return addRecursively(c, parent, child);
             }
         }
 
         return false;
     }
+
+    boolean isBinary() {
+        return isBinaryRecursively(root);
+    }
+
+    // служебный метод
+    // рекурсия при проверке на бинарность
+    boolean isBinaryRecursively(Node<E> current) {
+        boolean result = true;
+        if (current.children.size() > 2) {
+            result = false;
+        } else {
+            for (Node<E> c : current.children) {
+                if (!isBinaryRecursively(c)) {
+                    result = false;
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+
 
     @Override
     public Iterator<E> iterator() {
@@ -61,7 +82,7 @@ public class SimpleTree<E extends Comparable<E>> implements Tree<E> {
     //добавляем все элементы в список
     private List<E> itemsToList(Node<E> current, List<E> list) {
         list.add(current.value);
-        for(Node<E> child : current.children) {
+        for (Node<E> child : current.children) {
             itemsToList(child, list);
         }
         return list;

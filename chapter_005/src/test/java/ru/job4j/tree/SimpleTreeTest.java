@@ -17,7 +17,7 @@ public class SimpleTreeTest {
 
         boolean result = false;
         for (String v : st) {
-            if(v.equals("1.1.1.")) {
+            if (v.equals("1.1.1.")) {
                 result = true;
             }
         }
@@ -32,5 +32,18 @@ public class SimpleTreeTest {
         assertThat(st.add("1.", "1.2."), is(true));
         assertThat(st.add("1.1.", "1.1.1."), is(true));
         assertThat(st.add("1.1.", "1.2."), is(false));
+    }
+
+    @Test
+    public void whenTreeIsBinaryThenTrueElseFalse() {
+        SimpleTree<String> st = new SimpleTree<>("1.");
+        assertThat(st.add("1.", "1.1."), is(true));
+        assertThat(st.add("1.", "1.2."), is(true));
+        assertThat(st.isBinary(), is(true));
+        assertThat(st.add("1.1.", "1.1.1."), is(true));
+        assertThat(st.add("1.1.", "1.1.2."), is(true));
+        assertThat(st.isBinary(), is(true));
+        assertThat(st.add("1.1.", "1.1.3."), is(true));
+        assertThat(st.isBinary(), is(false));
     }
 }
