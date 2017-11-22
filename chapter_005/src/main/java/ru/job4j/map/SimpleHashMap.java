@@ -46,7 +46,7 @@ public class SimpleHashMap<K, V> implements Iterable<V> {
         return new Iterator<V>() {
             @Override
             public boolean hasNext() {
-                return nextIndex() >= 0 ? true : false;
+                return nextIndex() >= 0;
             }
 
             @Override
