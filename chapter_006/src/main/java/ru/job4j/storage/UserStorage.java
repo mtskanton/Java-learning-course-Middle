@@ -12,6 +12,7 @@ public class UserStorage {
     /**
      * Список пользователей
      */
+    @GuardedBy("this")
     List<User> users = new ArrayList<>();
 
     /**
@@ -19,7 +20,7 @@ public class UserStorage {
      * @param user пользователь
      * @return true если успешно
      */
-    boolean add(User user) {
+    public synchronized boolean add(User user) {
         return users.add(user);
     }
 
@@ -28,7 +29,7 @@ public class UserStorage {
      * @param user обновленный пользователь
      * @return true если успешно
      */
-    boolean update(User user) {
+    public synchronized boolean update(User user) {
         boolean result = false;
         int index = users.indexOf(user.getId());
         if (index >= 0) {
@@ -43,7 +44,7 @@ public class UserStorage {
      * @param user пользователь
      * @return true если успешно
      */
-    boolean delete(User user) {
+    public synchronized boolean delete(User user) {
         return users.remove(user);
     }
 
@@ -53,7 +54,6 @@ public class UserStorage {
      * @param toId ID пользователя для зачисления средств
      * @param sum сумма трансфера
      */
-    @GuardedBy("this")
     public synchronized void transfer(int fromId, int toId, int sum) {
         User from = null;
         User to = null;
