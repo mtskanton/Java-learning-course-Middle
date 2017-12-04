@@ -35,7 +35,7 @@ public class Stock {
      * Waits if no goods currently available.
      */
     public synchronized void get() {
-        if (goods < 1) {
+        while (goods < 1) {
             try {
                 wait();
             } catch (InterruptedException e) {
