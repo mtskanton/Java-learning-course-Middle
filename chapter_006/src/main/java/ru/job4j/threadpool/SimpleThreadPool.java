@@ -15,24 +15,22 @@ public class SimpleThreadPool {
     private final Thread[] threads;
 
     //indicator of stopped ThreadPool
-    private boolean stopped = false;
+    private volatile boolean stopped = false;
+
+    //amount of cores
+    private final int cores;
 
     SimpleThreadPool() {
-
-        //amount of cores
-        int cores = Runtime.getRuntime().availableProcessors();
-
+        this.cores = Runtime.getRuntime().availableProcessors();
         tasks = new LinkedList<>();
-        threads = new Thread[cores];
+        threads = new Thread[this.cores];
+    }
 
-        //filling of Pool with WorkingThreads
-        for (int i = 0; i < cores; i++) {
+    //filling the Pool with WorkingThreads and starting each one
+    private void init() {
+        for (int i = 0; i < this.cores; i++) {
             threads[i] = new WorkingThread();
-        }
-
-        //starting of the each thread
-        for (Thread thread : threads) {
-            thread.start();
+            threads[i].start();
         }
     }
 
@@ -81,6 +79,7 @@ public class SimpleThreadPool {
     //an example of usage
     public static void main(String[] args) {
         SimpleThreadPool tp = new SimpleThreadPool();
+        tp.init();
         Work work = new Work();
         for (int i = 0; i < 100; i++) {
             tp.add(work);
