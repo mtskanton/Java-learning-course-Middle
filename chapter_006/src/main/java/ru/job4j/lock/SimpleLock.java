@@ -6,27 +6,34 @@ package ru.job4j.lock;
  * @since 01.12.2017
  */
 public class SimpleLock {
-    private boolean isLocked = false;
+    //boolean if the lock is locked
+    private volatile boolean isLocked = false;
+
+    //thread that owns the lock
+    Thread lockedBy;
 
     /**
      * Locking of the thread on the current Object monitor.
      */
     public synchronized void lock() {
-        while (isLocked) {
+        while (this.isLocked && this.lockedBy != Thread.currentThread()) {
             try {
                 wait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-        isLocked = true;
+        this.lockedBy = Thread.currentThread();
+        this.isLocked = true;
     }
 
     /**
      * Unlocking of the thread on the current Object monitor.
      */
     public synchronized void unlock() {
-        isLocked = false;
-        notify();
+        if (this.lockedBy == Thread.currentThread()) {
+            isLocked = false;
+            notify();
+        }
     }
 }
