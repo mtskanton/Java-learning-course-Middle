@@ -1,0 +1,24 @@
+<?xml version = "1.0"?>
+<requests>
+    <request>
+        <name>Michael</name>
+        <surname>Smith</surname>
+        <date>12.12.2007</date>
+        <title>Price decrease</title>
+        <text>Please response to my request</text>
+    </request>
+    <request>
+        <name>Barbara</name>
+        <surname>Maison</surname>
+        <date>12.02.2007</date>
+        <title>Catalogue</title>
+        <text>PLease send your catalogue</text>
+    </request>
+    <request>
+        <name>Anita</name>
+        <surname>Johnson</surname>
+        <date>09.05.2012</date>
+        <title>Products</title>
+        <text>How can I get your products delivered?</text>
+    </request>
+</requests>
