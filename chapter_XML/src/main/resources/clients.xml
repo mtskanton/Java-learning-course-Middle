@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<clients>
+    <client id="1">
+        <name>Zak</name>
+        <age>22</age>
+        <city>Moscow</city>
+    </client>
+    <client id="2">
+        <name>Den</name>
+        <age>16</age>
+        <city>Warsaw</city>
+    </client>
+    <client id="3">
+        <name>William</name>
+        <age>34</age>
+        <city>Berlin</city>
+    </client>
+    <client id="4">
+        <name>Victor</name>
+        <age>17</age>
+        <city>Moscow</city>
+    </client>
+</clients>
