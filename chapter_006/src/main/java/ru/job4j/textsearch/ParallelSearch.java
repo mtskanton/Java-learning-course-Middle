@@ -24,19 +24,14 @@ public class ParallelSearch {
     private List<String> ext;
 
     //хранилище результата. Резуьтат поиска - адреса файлов, в которых содержится искомый текст
-    List<String> result = new ArrayList<>();
+    private List<String> result = new ArrayList<>();
 
     //для запуска потоков используется пул потоков.
     //количество потоков определяется количеством процессоров.
-    ExecutorService executor;
+    private ExecutorService executor;
 
-    //счетчик количества запущенных потоков для выбора времени остановки пула потоков
-    //инкрементация в момент запуска потока
-    //декрементация в потоке в момент окончания работы с файлом
-    private int counter = 0;
-
-    //лок счетчика
-    private Lock counterLock = new ReentrantLock();
+    //Лок добавления результата в общий список
+    private Lock lock = new ReentrantLock();
 
     ParallelSearch(String root, String text, List<String> ext) {
         this.root = root;
@@ -53,29 +48,23 @@ public class ParallelSearch {
         File dir = new File(this.root);
         directorySearch(dir);
 
-        //перевод в ожидание каждую секунду до момента завершения всех задач переданных в пул пооков.
-        //по завершению поиска во всех файлах приостановка пула потоков
-        while (counter > 0) {
-           System.out.println("wait");
-           wait(1000);
+        executor.shutdown();
+        //Ожидание завершения всех задач в пуле потоков
+        while (!executor.isTerminated()) {
+            continue;
         }
-        executor.shutdownNow();
     }
 
     /**
      * Метод рекурсивного прохода по всем каталогам.
      * @param directory директория поиска
      */
-    public void directorySearch(File directory) throws InterruptedException, ExecutionException {
+    private void directorySearch(File directory) throws InterruptedException, ExecutionException {
         if (directory.list() != null) {
             for (File file : directory.listFiles()) {
                 if (file.isFile()) {
                     //если разрешение файла есть среди искомых
                     if (ext.contains(getFileExtension(file))) {
-                        //прибавляем счетчик при добавлении каждого файла на проверку
-                        synchronized (counterLock) {
-                            this.counter++;
-                        }
                         //запускает поток поиска текста непосредственно в файле
                         executor.execute(new TextSearch(this, this.text, file.getPath()));
                     }
@@ -101,22 +90,12 @@ public class ParallelSearch {
     }
 
     /**
-     * Метод вычитает счетчик, когда какой-либо из потоков прекратил поиск в файле.
-     */
-    public void decrementCounter() {
-        synchronized (counterLock) {
-            this.counter--;
-        }
-    }
-
-    /**
      * Метод добавляет результат поиска в список результатов.
      * @param found адрес файла с искомым текстом
      */
     public void addResult(String found) {
-        synchronized (counterLock) {
+        synchronized (lock) {
             this.result.add(found);
-            this.decrementCounter();
         }
     }
 

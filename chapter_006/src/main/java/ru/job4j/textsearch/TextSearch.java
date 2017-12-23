@@ -30,7 +30,6 @@ public class TextSearch implements Runnable {
             while (true) {
                 s = lnr.readLine();
                 if (s == null) {
-                    ps.decrementCounter();
                     break;
                 }
 
