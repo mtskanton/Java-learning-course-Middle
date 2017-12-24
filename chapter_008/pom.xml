@@ -11,5 +11,11 @@
 
     <artifactId>chapter_008</artifactId>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.1.4</version>
+        </dependency>
+    </dependencies>
 </project>
