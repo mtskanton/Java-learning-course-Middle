@@ -8,7 +8,7 @@ import java.io.FileFilter;
  */
 public class FileFilterExample implements FileFilter {
 
-    String[] extensions;
+    private String[] extensions;
 
     FileFilterExample(String ext) {
         extensions = ext.split(",");
