@@ -68,6 +68,28 @@ public class FileExample {
             e.printStackTrace();
         }
     }
+    
+    /**
+     * Метод копирования текста из одного файла в другой.
+     */
+    public void copyFileText() {
+
+        try {
+            FileInputStream fis = new FileInputStream("D:\\testDir\\from.txt");
+            FileOutputStream fos = new FileOutputStream("D:\\testDir\\to.txt");
+
+            byte[] buffer = new byte[fis.available()];
+
+            fis.read(buffer, 0, buffer.length);
+            fos.write(buffer, 0, buffer.length);
+
+            fis.close();
+            fos.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 
     public static void main(String[] args) {
@@ -77,5 +99,6 @@ public class FileExample {
 
         //fe.dbConnection();
 
+        fe.copyFileText();
     }
 }
