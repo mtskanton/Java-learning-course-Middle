@@ -91,6 +91,43 @@ public class FileExample {
         }
     }
 
+    /**
+     * Метод записи в файл с использованием FileWriter.
+     */
+    public void fileWriter() {
+
+        try (FileWriter writer = new FileWriter("D:\\fileExample.txt", false)) {
+            String text = "Текст для записи в файл";
+            writer.write(text);
+
+            writer.append("\r\n");
+
+            writer.append("One more line");
+
+            writer.flush();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * Метод чтения из файла с использованием FileReader.
+     */
+    public void fileReader() {
+
+        try (FileReader reader = new FileReader("D:\\fileExample.txt")) {
+            int i;
+            while ((i = reader.read()) != -1) {
+                System.out.print((char) i);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public static void main(String[] args) {
         FileExample fe = new FileExample();
@@ -99,6 +136,9 @@ public class FileExample {
 
         //fe.dbConnection();
 
-        fe.copyFileText();
+        //fe.copyFileText();
+
+        fe.fileWriter();
+        fe.fileReader();
     }
 }
