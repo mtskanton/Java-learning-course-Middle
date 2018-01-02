@@ -148,12 +148,22 @@ public class Application {
         PreparedStatement pst = null;
         try {
             pst = conn.prepareStatement("INSERT INTO Numbers (num) VALUES (?)");
+            conn.setAutoCommit(false);
             for (int i = 1; i <= this.number; i++) {
                 pst.setInt(1, i);
-                pst.executeUpdate();
+                pst.addBatch();
             }
+            pst.executeBatch();
+            conn.commit();
         } catch (SQLException e) {
-            e.printStackTrace();
+            try {
+                System.err.println("Transaction rollback");
+                e.printStackTrace();
+                conn.rollback();
+            } catch (SQLException e1) {
+                System.err.println("SQLException during rollback");
+                e1.printStackTrace();
+            }
         } finally {
             if (pst != null) {
                 try {
