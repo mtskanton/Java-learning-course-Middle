@@ -42,8 +42,15 @@ public class UpdateUser extends HttpServlet {
         String name = req.getParameter("name");
         String login = req.getParameter("login");
         String email = req.getParameter("email");
+
+        User user = new User();
+        user.setId(id);
+        user.setName(name);
+        user.setLogin(login);
+        user.setEmail(email);
+
         try {
-            UsersStore.getInstance().updateUser(id, name, login, email);
+            UsersStore.getInstance().updateUser(user);
         } catch (SQLException e) {
             e.printStackTrace();
         }
