@@ -42,9 +42,8 @@ public class UsersStore {
     /**
      * Метод получения списка пользователей.
      * @return список пользователей
-     * @throws SQLException в случае возникновения при SQL запросе
      */
-    public List<User> getUsers() throws SQLException {
+    public List<User> getUsers() {
         List<User> users = new ArrayList<>();
 
         try (Statement st = this.conn.createStatement();
@@ -60,6 +59,8 @@ public class UsersStore {
 
                 users.add(user);
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
         return users;
@@ -69,9 +70,8 @@ public class UsersStore {
      * Метод получения пользователя по id.
      * @param id пользователя
      * @return класс пользователя
-     * @throws SQLException в случае возникновения при SQL запросе
      */
-    public User getUser(Integer id) throws SQLException {
+    public User getUser(Integer id) {
         User user = new User();
         try (PreparedStatement pst = this.conn.prepareStatement("SELECT * FROM users WHERE id=?")) {
             pst.setInt(1, id);
@@ -82,6 +82,8 @@ public class UsersStore {
             user.setLogin(rs.getString("login"));
             user.setEmail(rs.getString("email"));
             user.setCreated(rs.getDate("created"));
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return user;
     }
@@ -91,9 +93,8 @@ public class UsersStore {
      * @param name имя
      * @param login логин
      * @param email e-mail
-     * @throws SQLException в случае возникновения при SQL запросе
      */
-    public void addUser(String name, String login, String email) throws SQLException {
+    public void addUser(String name, String login, String email) {
         try (PreparedStatement pst = this.conn.prepareStatement("CREATE TABLE IF NOT EXISTS users ("
                     + "id SERIAL PRIMARY KEY,"
                     + "name varchar(255) NOT NULL,"
@@ -109,6 +110,8 @@ public class UsersStore {
             Date dataTime = new java.sql.Date(d.getTime());
             pst.setDate(4, dataTime);
             pst.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -118,27 +121,29 @@ public class UsersStore {
      * @param name новое имя
      * @param login новый логин
      * @param email новый e-mail
-     * @throws SQLException в случае возникновения при SQL запросе
      */
-    public void updateUser(User user) throws SQLException {
+    public void updateUser(User user) {
         try (PreparedStatement pst = this.conn.prepareStatement("UPDATE users SET name=?, login=?, email=? WHERE id=?")) {
             pst.setString(1, user.getName());
             pst.setString(2, user.getLogin());
             pst.setString(3, user.getEmail());
             pst.setInt(4, user.getId());
             pst.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
     /**
      * Метод удаления пользователя из БД.
      * @param id записи в БД для удаления
-     * @throws SQLException в случае возникновения при SQL запросе
      */
-    public void deleteUser(Integer id) throws SQLException {
+    public void deleteUser(Integer id) {
         try (PreparedStatement pst = this.conn.prepareStatement("DELETE FROM users WHERE id=?")) {
             pst.setInt(1, id);
             pst.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }
