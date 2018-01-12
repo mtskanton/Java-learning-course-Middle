@@ -15,7 +15,9 @@ public class UpdateUser extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/update.jsp").forward(req, resp);
+        int id = Integer.valueOf(req.getParameter("id"));
+        req.setAttribute("user", UsersStore.getInstance().getUser(id));
+        req.getRequestDispatcher("WEB-INF/views/update.jsp").forward(req, resp);
     }
 
     @Override
@@ -32,6 +34,6 @@ public class UpdateUser extends HttpServlet {
         user.setEmail(email);
 
         UsersStore.getInstance().updateUser(user);
-        resp.sendRedirect(String.format("%s/list", req.getContextPath()));
+        resp.sendRedirect(String.format("%s/", req.getContextPath()));
     }
 }

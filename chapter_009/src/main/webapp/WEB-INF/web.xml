@@ -38,7 +38,7 @@
 
     <servlet-mapping>
         <servlet-name>UsersList</servlet-name>
-        <url-pattern>/list</url-pattern>
+        <url-pattern>/</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>CreateUser</servlet-name>

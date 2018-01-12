@@ -14,7 +14,7 @@ import java.sql.SQLException;
 public class CreateUser extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.sendRedirect(String.format("%s/create.jsp", req.getContextPath()));
+        req.getRequestDispatcher("WEB-INF/views/create.jsp").forward(req, resp);
     }
 
     @Override
@@ -23,6 +23,6 @@ public class CreateUser extends HttpServlet {
         String login = req.getParameter("login");
         String email = req.getParameter("email");
         UsersStore.getInstance().addUser(name, login, email);
-        resp.sendRedirect(String.format("%s/list", req.getContextPath()));
+        resp.sendRedirect(String.format("%s/", req.getContextPath()));
     }
 }

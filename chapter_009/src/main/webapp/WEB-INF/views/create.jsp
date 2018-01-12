@@ -6,7 +6,7 @@
 <body>
     <b>Create new user</b>
     <br/>
-    <form action="<%=request.getContextPath()%>/create" method=post>
+    <form action="${pageContext.servletContext.contextPath}/create" method=post>
         <table>
             <tr><td>Name</td><td><input type="text" name="name"></td></tr>
             <tr><td>Login</td><td><input type="text" name="login"></td></tr>

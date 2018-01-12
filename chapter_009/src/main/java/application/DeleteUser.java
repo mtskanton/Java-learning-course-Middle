@@ -16,6 +16,6 @@ public class DeleteUser extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Integer id = Integer.valueOf(req.getParameter("id"));
         UsersStore.getInstance().deleteUser(id);
-        resp.sendRedirect(String.format("%s/list", req.getContextPath()));
+        resp.sendRedirect(String.format("%s/", req.getContextPath()));
     }
 }

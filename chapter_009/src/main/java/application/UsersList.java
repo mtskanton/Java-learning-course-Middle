@@ -17,6 +17,8 @@ public class UsersList extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.sendRedirect(String.format("%s/list.jsp", req.getContextPath()));
+        req.setAttribute("users", UsersStore.getInstance().getUsers());
+        req.setAttribute("path", req.getContextPath());
+        req.getRequestDispatcher("WEB-INF/views/list.jsp").forward(req, resp);
     }
 }
