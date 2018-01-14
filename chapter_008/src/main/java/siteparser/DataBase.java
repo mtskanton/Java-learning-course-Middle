@@ -13,10 +13,10 @@ public class DataBase {
     private static final Logger LOGGER = Logger.getLogger(DataBase.class);
 
     //подключение базы данных
-    Connection con;
+    private Connection con;
 
     //параметры из файла
-    Properties properties;
+    private Properties properties;
 
     DataBase(Properties p) {
         this.properties = p;

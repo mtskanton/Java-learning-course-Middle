@@ -32,7 +32,8 @@ public class Application {
     public Properties getProperties() {
         Properties properties = null;
 
-        try (Reader reader = new InputStreamReader(new FileInputStream("chapter_008\\src\\main\\resources\\parsing.properties"))) {
+        try (InputStream is = this.getClass().getClassLoader().getResourceAsStream("parsing.properties");
+            Reader reader = new InputStreamReader(is)) {
             properties = new Properties();
             properties.load(reader);
             reader.close();
