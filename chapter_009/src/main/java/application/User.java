@@ -8,7 +8,7 @@ import java.util.Date;
 public class User implements Comparable<User> {
 
     private int id;
-    private String name, login, email;
+    private String name, login, email, password, role;
     private Date createDate;
 
     public void setId(Integer id) {
@@ -23,12 +23,20 @@ public class User implements Comparable<User> {
         this.login = login;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public void setEmail(String email) {
         this.email = email;
     }
 
     public void setCreated(Date created) {
         this.createDate = created;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public Integer getId() {
@@ -43,12 +51,20 @@ public class User implements Comparable<User> {
         return this.login;
     }
 
+    public String getPassword() {
+        return this.password;
+    }
+
     public String getEmail() {
         return this.email;
     }
 
     public Date getCreated() {
         return this.createDate;
+    }
+
+    public String getRole() {
+        return this.role;
     }
 
     @Override
