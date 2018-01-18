@@ -26,7 +26,6 @@ public class UpdateUser extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setCharacterEncoding("UTF-8");
         Integer id = Integer.valueOf(req.getParameter("id"));
         String name = req.getParameter("name");
         String login = req.getParameter("login");
@@ -34,15 +33,24 @@ public class UpdateUser extends HttpServlet {
         String email = req.getParameter("email");
         String role = req.getParameter("role");
 
-        User user = new User();
-        user.setId(id);
-        user.setName(name);
-        user.setLogin(login);
-        user.setPassword(password);
-        user.setEmail(email);
-        user.setRole(role);
 
-        UsersStore.getInstance().updateUser(user);
+        if (login.trim().equals("") | password.trim().equals("")) {
+            req.setAttribute("error", "Login and password could not be blank.");
+            doGet(req, resp);
+        } else if (!UsersStore.getInstance().loginIsFree(id, login)) {
+            req.setAttribute("error", "Login is already in use. Please choose another one.");
+            doGet(req, resp);
+        } else {
+            User user = new User();
+            user.setId(id);
+            user.setName(name);
+            user.setLogin(login);
+            user.setPassword(password);
+            user.setEmail(email);
+            user.setRole(role);
+
+            UsersStore.getInstance().updateUser(user);
+        }
         resp.sendRedirect(String.format("%s/", req.getContextPath()));
     }
 }

@@ -120,9 +120,13 @@ public class UsersStore {
      * @param login логин для проверки
      * @return true если логин не занят
      */
-    public boolean loginIsFree(String login) {
+    public boolean loginIsFree(int id, String login) {
         boolean free = true;
         for (User user :this.getUsers()) {
+            //если это логин текущего пользователя, то пропускаем. Актуально при обновлении прочей информации пользвателя.
+            if (user.getId() == id) {
+                continue;
+            }
             if (user.getLogin().equals(login)) {
                 free = false;
                 break;
@@ -160,6 +164,14 @@ public class UsersStore {
         try (PreparedStatement pst = this.conn.prepareStatement("DELETE FROM users WHERE id=?")) {
             pst.setInt(1, id);
             pst.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteAllUsers() {
+        try (Statement st = this.conn.createStatement()) {
+            st.executeUpdate("DELETE FROM users");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -207,31 +219,35 @@ public class UsersStore {
      * Создание таблиц и заполенние пользователей.
      * Для демонстрационных целей и тестирования.
      */
-//    private void createTables() {
-//        try (Statement st = this.conn.createStatement()) {
-//            st.executeUpdate("CREATE TABLE IF NOT EXISTS users ("
-//                        + "id SERIAL PRIMARY KEY,"
-//                        + "name varchar(255) NOT NULL,"
-//                        + "login varchar(255) NOT NULL,"
-//                        + "password varchar(255) NOT NULL,"
-//                        + "email varchar(255),"
-//                        + "created date DEFAULT now(),"
-//                        + "role_id int DEFAULT 1"
-//                        + ");");
-//
-//            st.executeUpdate("CREATE TABLE IF NOT EXISTS roles ("
-//                    + "id SERIAL PRIMARY KEY,"
-//                    + "role varchar(25) NOT NULL"
-//                    + ");");
-//
-//            st.executeUpdate("INSERT INTO roles (role) VALUES ('User')");
-//            st.executeUpdate("INSERT INTO roles (role) VALUES ('Admin')");
-//
-//            st.executeUpdate("INSERT INTO users (name, login, password, role_id) VALUES ('root', 'root', 'root', 2)");
-//            st.executeUpdate("INSERT INTO users (name, login, password, role_id) VALUES ('user', 'user', 'user', 1)");
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    private void createTables() {
+        try (Statement st = this.conn.createStatement()) {
+
+            st.executeUpdate("CREATE TABLE IF NOT EXISTS roles ("
+                    + "id SERIAL PRIMARY KEY,"
+                    + "role varchar(25) CHECK (role IN ('User', 'Admin'))"
+                    + ");");
+
+            st.executeUpdate("CREATE TABLE IF NOT EXISTS users ("
+                        + "id SERIAL PRIMARY KEY,"
+                        + "name varchar(255) NOT NULL,"
+                        + "login varchar(255) NOT NULL,"
+                        + "password varchar(255) NOT NULL,"
+                        + "email varchar(255),"
+                        + "created date DEFAULT now(),"
+                        + "role_id int,"
+                        + "CONSTRAINT roles_role_id_fk FOREIGN KEY (role_id) REFERENCES roles(id)"
+                        + ");");
+
+            st.executeUpdate("CREATE INDEX users_login_idx ON users(login)");
+
+            st.executeUpdate("INSERT INTO roles (role) VALUES ('User')");
+            st.executeUpdate("INSERT INTO roles (role) VALUES ('Admin')");
+
+            st.executeUpdate("INSERT INTO users (name, login, password, role_id) VALUES ('root', 'root', 'root', 2)");
+            st.executeUpdate("INSERT INTO users (name, login, password, role_id) VALUES ('user', 'user', 'user', 1)");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

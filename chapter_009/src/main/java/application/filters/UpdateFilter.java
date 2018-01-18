@@ -19,7 +19,6 @@ public class UpdateFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
-        request.setCharacterEncoding("UTF-8");
         HttpSession session = request.getSession();
         if (session.getAttribute("id").equals(request.getParameter("id")) | session.getAttribute("role").equals("Admin")) {
             filterChain.doFilter(servletRequest, servletResponse);

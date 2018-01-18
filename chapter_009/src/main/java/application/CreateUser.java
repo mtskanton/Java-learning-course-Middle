@@ -20,7 +20,6 @@ public class CreateUser extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setCharacterEncoding("UTF-8");
         String name = req.getParameter("name");
         String login = req.getParameter("login");
         String password = req.getParameter("password");
@@ -30,7 +29,7 @@ public class CreateUser extends HttpServlet {
         if (login.trim().equals("") | password.trim().equals("")) {
             req.setAttribute("error", "Login and password could not be blank.");
             doGet(req, resp);
-        } else if (!UsersStore.getInstance().loginIsFree(login)) {
+        } else if (!UsersStore.getInstance().loginIsFree(-1, login)) {
             req.setAttribute("error", "Login is already in use. Please choose another one.");
             doGet(req, resp);
         } else {

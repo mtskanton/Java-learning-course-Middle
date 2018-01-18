@@ -14,6 +14,10 @@
 <body>
 
     <b>Change user information</b>
+    <c:if test="${error != ''}">
+        <div style="background-color: red">${error}</div>
+    </c:if>
+
     <br/>
     <form action="${pageContext.servletContext.contextPath}/update" method=post>
         <table>
