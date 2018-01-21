@@ -25,9 +25,9 @@ public class DeleteUserTest {
 
     @Before
     public void init() {
-        UsersStore store = UsersStore.getInstance();
+        DbManager store = DbManager.getInstance();
         store.deleteAllUsers();
-        store.addUser("name", "login", "password", "email", "User");
+        store.addUser("name", "login", "password", "email", "Russia", "Moscow", "User");
     }
 
     /**
@@ -38,13 +38,13 @@ public class DeleteUserTest {
     @Test
     public void whenSetNewUserDataThenUpdateIt() throws ServletException, IOException {
 
-        List<User> added = UsersStore.getInstance().getUsers();
+        List<User> added = DbManager.getInstance().getUsers();
         when(request.getParameter("id")).thenReturn(added.get(0).getId().toString());
         
         DeleteUser delete = new DeleteUser();
         delete.doGet(request, response);
 
-        List<User> users = UsersStore.getInstance().getUsers();
+        List<User> users = DbManager.getInstance().getUsers();
         assertThat(users.size(), is(0));
     }
 }

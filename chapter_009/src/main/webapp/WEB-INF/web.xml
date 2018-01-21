@@ -33,6 +33,10 @@
         <servlet-name>LogOut</servlet-name>
         <servlet-class>application.LogOut</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>getCitiesForCountry</servlet-name>
+        <servlet-class>application.CitiesForCountry</servlet-class>
+    </servlet>
 
     <filter>
         <filter-name>CharsetFilter</filter-name>
@@ -84,6 +88,10 @@
     <servlet-mapping>
         <servlet-name>LogOut</servlet-name>
         <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>getCitiesForCountry</servlet-name>
+        <url-pattern>/cities_for_country</url-pattern>
     </servlet-mapping>
 
     <filter-mapping>

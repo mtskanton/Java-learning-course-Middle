@@ -5,8 +5,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.SQLException;
 
 /**
  * Сервлет обновления пользователя.
@@ -16,8 +14,12 @@ public class UpdateUser extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.valueOf(req.getParameter("id"));
-        req.setAttribute("user", UsersStore.getInstance().getUser(id));
-        req.setAttribute("roles", UsersStore.getInstance().getRoles());
+        User user = DbManager.getInstance().getUser(id);
+        System.out.println(user.getCity());
+        req.setAttribute("user", user);
+        req.setAttribute("roles", DbManager.getInstance().getRoles());
+        req.setAttribute("countries", DbManager.getInstance().getCountries());
+        req.setAttribute("cities", DbManager.getInstance().getCitiesForCountry(user.getCountry()));
         if (req.getSession().getAttribute("role").equals("User")) {
             req.setAttribute("access", "disabled");
         }
@@ -31,13 +33,15 @@ public class UpdateUser extends HttpServlet {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
         String email = req.getParameter("email");
+        String country = req.getParameter("country");
+        String city = req.getParameter("city");
         String role = req.getParameter("role");
 
 
         if (login.trim().equals("") | password.trim().equals("")) {
             req.setAttribute("error", "Login and password could not be blank.");
             doGet(req, resp);
-        } else if (!UsersStore.getInstance().loginIsFree(id, login)) {
+        } else if (!DbManager.getInstance().loginIsFree(id, login)) {
             req.setAttribute("error", "Login is already in use. Please choose another one.");
             doGet(req, resp);
         } else {
@@ -47,9 +51,11 @@ public class UpdateUser extends HttpServlet {
             user.setLogin(login);
             user.setPassword(password);
             user.setEmail(email);
+            user.setCountry(country);
+            user.setCity(city);
             user.setRole(role);
 
-            UsersStore.getInstance().updateUser(user);
+            DbManager.getInstance().updateUser(user);
         }
         resp.sendRedirect(String.format("%s/", req.getContextPath()));
     }

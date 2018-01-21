@@ -26,9 +26,9 @@ public class UpdateUserTest {
 
     @Before
     public void init() {
-        UsersStore store = UsersStore.getInstance();
+        DbManager store = DbManager.getInstance();
         store.deleteAllUsers();
-        store.addUser("name", "login", "password", "email", "User");
+        store.addUser("name", "login", "password", "email", "Russia", "Moscow", "User");
     }
 
     /**
@@ -39,7 +39,7 @@ public class UpdateUserTest {
     @Test
     public void whenSetNewUserDataThenUpdateIt() throws ServletException, IOException {
 
-        List<User> added = UsersStore.getInstance().getUsers();
+        List<User> added = DbManager.getInstance().getUsers();
         when(request.getParameter("id")).thenReturn(added.get(0).getId().toString());
         when(request.getParameter("name")).thenReturn("changedName");
         when(request.getParameter("login")).thenReturn("changedLogin");
@@ -50,7 +50,7 @@ public class UpdateUserTest {
         UpdateUser update = new UpdateUser();
         update.doPost(request, response);
 
-        List<User> users = UsersStore.getInstance().getUsers();
+        List<User> users = DbManager.getInstance().getUsers();
         assertThat(users.get(0).getName(), is("changedName"));
         assertThat(users.get(0).getLogin(), is("changedLogin"));
         assertThat(users.get(0).getPassword(), is("changedPass"));
@@ -66,7 +66,7 @@ public class UpdateUserTest {
     @Test(expected = Exception.class)
     public void whenUpdateWithEmptyLoginThenRedirectRequest() throws ServletException, IOException {
 
-        List<User> added = UsersStore.getInstance().getUsers();
+        List<User> added = DbManager.getInstance().getUsers();
         when(request.getParameter("id")).thenReturn(added.get(0).getId().toString());
         when(request.getParameter("name")).thenReturn("name");
         when(request.getParameter("login")).thenReturn(" ");

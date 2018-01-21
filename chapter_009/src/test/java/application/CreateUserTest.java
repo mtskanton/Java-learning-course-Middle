@@ -22,7 +22,7 @@ public class CreateUserTest {
 
     @Before
     public void init() {
-        UsersStore.getInstance().deleteAllUsers();
+        DbManager.getInstance().deleteAllUsers();
     }
 
     /**
@@ -43,7 +43,7 @@ public class CreateUserTest {
         when(request.getParameter("role")).thenReturn("User");
 
         create.doPost(request, response);
-        List<User> users = UsersStore.getInstance().getUsers();
+        List<User> users = DbManager.getInstance().getUsers();
         assertThat(users.get(0).getName(), is("testName"));
         assertThat(users.get(0).getLogin(), is("testLogin"));
         assertThat(users.get(0).getPassword(), is("testPass"));

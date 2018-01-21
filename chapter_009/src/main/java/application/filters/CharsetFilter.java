@@ -1,8 +1,5 @@
 package application.filters;
 
-import application.CreateUser;
-import application.UsersStore;
-
 import javax.servlet.*;
 import java.io.IOException;
 

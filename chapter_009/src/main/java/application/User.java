@@ -8,7 +8,7 @@ import java.util.Date;
 public class User implements Comparable<User> {
 
     private int id;
-    private String name, login, email, password, role;
+    private String name, login, email, password, role, country, city;
     private Date createDate;
 
     public void setId(Integer id) {
@@ -39,6 +39,14 @@ public class User implements Comparable<User> {
         this.role = role;
     }
 
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
     public Integer getId() {
         return this.id;
     }
@@ -65,6 +73,14 @@ public class User implements Comparable<User> {
 
     public String getRole() {
         return this.role;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 
     @Override
