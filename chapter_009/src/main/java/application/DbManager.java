@@ -8,35 +8,28 @@ import java.util.*;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 /**
- * Класс взаимодействия с базой данных.
- * Синглтон
+ * Синглтон взаимодействия с базой данных.
  * Используется apache connection pool без JNDI
  */
-public class DbManager {
+public enum DbManager {
+
+    INSTANCE;
+
     private Connection conn;
-    private static DbManager instance;
-    private ComboPooledDataSource cpds;
 
     private DbManager() {
         try {
-            this.cpds = new ComboPooledDataSource();
-            this.cpds.setDriverClass("org.postgresql.Driver");
-            this.cpds.setJdbcUrl("jdbc:postgresql://localhost:5432/user_storage");
-            this.cpds.setUser("postgres");
-            this.cpds.setPassword("password");
-            this.cpds.setMaxPoolSize(20);
+            ComboPooledDataSource cpds = new ComboPooledDataSource();
+            cpds.setDriverClass("org.postgresql.Driver");
+            cpds.setJdbcUrl("jdbc:postgresql://localhost:5432/user_storage");
+            cpds.setUser("postgres");
+            cpds.setPassword("password");
+            cpds.setMaxPoolSize(20);
 
             this.conn = cpds.getConnection();
         } catch (PropertyVetoException | SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    public static synchronized DbManager getInstance() {
-        if (instance == null) {
-            instance = new DbManager();
-        }
-        return instance;
     }
 
     /**

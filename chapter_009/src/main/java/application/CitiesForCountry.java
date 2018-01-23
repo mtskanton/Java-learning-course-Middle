@@ -23,7 +23,7 @@ public class CitiesForCountry extends HttpServlet {
 
         String country = req.getParameter("country");
         if (!country.equals("")) {
-            List<City> cities = DbManager.getInstance().getCitiesForCountry(country);
+            List<City> cities = DbManager.INSTANCE.getCitiesForCountry(country);
 
             JSONArray jsonArray = new JSONArray();
             JSONObject jsonObject = new JSONObject();

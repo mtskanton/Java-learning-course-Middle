@@ -21,7 +21,7 @@ public class LogIn extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
-        User user = DbManager.getInstance().isRegistered(login, password);
+        User user = DbManager.INSTANCE.isRegistered(login, password);
         if (user != null) {
             HttpSession session = req.getSession();
             session.setAttribute("id", user.getId().toString());

@@ -12,9 +12,9 @@ import java.io.IOException;
 public class CreateUser extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("roles", DbManager.getInstance().getRoles());
-        req.setAttribute("countries", DbManager.getInstance().getCountries());
-        req.setAttribute("cities", DbManager.getInstance().getCities());
+        req.setAttribute("roles", DbManager.INSTANCE.getRoles());
+        req.setAttribute("countries", DbManager.INSTANCE.getCountries());
+        req.setAttribute("cities", DbManager.INSTANCE.getCities());
         req.getRequestDispatcher("WEB-INF/views/create.jsp").forward(req, resp);
     }
 
@@ -31,11 +31,11 @@ public class CreateUser extends HttpServlet {
         if (login.trim().equals("") | password.trim().equals("")) {
             req.setAttribute("error", "Login and password could not be blank.");
             doGet(req, resp);
-        } else if (!DbManager.getInstance().loginIsFree(-1, login)) {
+        } else if (!DbManager.INSTANCE.loginIsFree(-1, login)) {
             req.setAttribute("error", "Login is already in use. Please choose another one.");
             doGet(req, resp);
         } else {
-            DbManager.getInstance().addUser(name, login, password, email, country, city, role);
+            DbManager.INSTANCE.addUser(name, login, password, email, country, city, role);
         }
         resp.sendRedirect(String.format("%s/", req.getContextPath()));
     }

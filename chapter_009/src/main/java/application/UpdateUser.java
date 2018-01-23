@@ -14,12 +14,12 @@ public class UpdateUser extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.valueOf(req.getParameter("id"));
-        User user = DbManager.getInstance().getUser(id);
+        User user = DbManager.INSTANCE.getUser(id);
         System.out.println(user.getCity());
         req.setAttribute("user", user);
-        req.setAttribute("roles", DbManager.getInstance().getRoles());
-        req.setAttribute("countries", DbManager.getInstance().getCountries());
-        req.setAttribute("cities", DbManager.getInstance().getCitiesForCountry(user.getCountry()));
+        req.setAttribute("roles", DbManager.INSTANCE.getRoles());
+        req.setAttribute("countries", DbManager.INSTANCE.getCountries());
+        req.setAttribute("cities", DbManager.INSTANCE.getCitiesForCountry(user.getCountry()));
         if (req.getSession().getAttribute("role").equals("User")) {
             req.setAttribute("access", "disabled");
         }
@@ -41,7 +41,7 @@ public class UpdateUser extends HttpServlet {
         if (login.trim().equals("") | password.trim().equals("")) {
             req.setAttribute("error", "Login and password could not be blank.");
             doGet(req, resp);
-        } else if (!DbManager.getInstance().loginIsFree(id, login)) {
+        } else if (!DbManager.INSTANCE.loginIsFree(id, login)) {
             req.setAttribute("error", "Login is already in use. Please choose another one.");
             doGet(req, resp);
         } else {
@@ -55,7 +55,7 @@ public class UpdateUser extends HttpServlet {
             user.setCity(city);
             user.setRole(role);
 
-            DbManager.getInstance().updateUser(user);
+            DbManager.INSTANCE.updateUser(user);
         }
         resp.sendRedirect(String.format("%s/", req.getContextPath()));
     }

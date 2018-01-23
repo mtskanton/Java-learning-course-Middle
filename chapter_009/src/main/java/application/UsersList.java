@@ -13,7 +13,7 @@ public class UsersList extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("users", DbManager.getInstance().getUsers());
+        req.setAttribute("users", DbManager.INSTANCE.getUsers());
         req.setAttribute("path", req.getContextPath());
         if (req.getSession().getAttribute("role").equals("User")) {
             req.setAttribute("access", "disabled");
