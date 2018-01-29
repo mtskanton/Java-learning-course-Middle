@@ -1,0 +1,73 @@
+<head>
+    <title>TODO list</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <script>
+        function addItem() {
+            var description = $("#new_item").val();
+            $.ajax({
+                type: "POST",
+                url: "./items",
+                data: {"item_description":description},
+                complete: function() {
+                    $("#new_item").val("");
+                    getItemsList();
+                }
+            });
+        }
+
+        function updateDoneStatus(item) {
+            $.ajax({
+                type: "POST",
+                url: "./items",
+                data: {"item_id":item.id, "item_done":item.checked},
+                complete: function() {
+                    getItemsList();
+                }
+            });
+        }
+
+        function getItemsList() {
+            $.ajax({
+                type: "GET",
+                url: "./items",
+                data: {"include_done":$("#include_done").is(":checked")},
+                complete:function(data) {
+                    var items = JSON.parse(data.responseText);
+                    $("#itemsTable").html("<thead><tr><th>id</th><th>description</th><th>date and time</th><th>done</th></tr></thead><tbody></tbody>");
+                    for(var i = 0; i != items.length; ++i) {
+
+                         $("#itemsTable").append('<tr>' +
+                            '<td>'+items[i].id+'</td>' +
+                            '<td>'+items[i].description+'</td>' +
+                            '<td>'+items[i].date+'</td>' +
+                            '<td><input id="'+items[i].id+'" type="checkbox" '+(items[i].done==true ? "checked" : "")+' onchange="updateDoneStatus(this)"></td>' +
+                            '</tr>');
+                    }
+                    $("#itemsTable").addClass("table table-hover");
+                }
+            });
+        }
+    </script>
+
+</head>
+<body onload="getItemsList()">
+    <div class="center-block" style="width:500px;">
+
+        <div class="page-header"><h1>TODO list</h1></div>
+
+        <form id="newItem" onsubmit="addItem(); return false;">
+            <label for="new_item">Task description:</label>
+            <input id="new_item" class="form-control" name="new_item" type="text" required>
+            <input class="btn btn-default" type="submit" value="Submit">
+        </form>
+        <label for="include_done">Include completed</label>
+        <input id="include_done" type="checkbox" onchange="getItemsList()"><br/><br/>
+
+        <table id="itemsTable"></table>
+
+    </div>
+</body>

@@ -23,7 +23,8 @@
 		<module>chapter_009</module>
 		<module>chapter_XML</module>
 		<module>chapter_IO</module>
-	</modules>
+        <module>chapter_010</module>
+    </modules>
 
 	<dependencies>
 		<dependency>
