@@ -1,0 +1,16 @@
+<hibernate-mapping>
+    <class name="carselling.models.Advertisement" table="advertisements">
+        <id name="id" column="id">
+            <generator class="identity"/>
+        </id>
+        <many-to-one name="brand" column="brand_id" class="carselling.models.Brand" lazy="false"/>
+        <property name="model" column="model"/>
+        <property name="description" column="description"/>
+        <property name="year" column="manufacture_year"/>
+        <many-to-one name="carcase" column="carcase_id" class="carselling.models.Carcase" lazy="false"/>
+        <property name="price" column="price"/>
+        <property name="date" column="publish_date"/>
+        <property name="sold" column="sold"/>
+        <many-to-one name="user" column="user_id" class="carselling.models.User" lazy="false"/>
+    </class>
+</hibernate-mapping>

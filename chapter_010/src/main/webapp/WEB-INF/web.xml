@@ -1,4 +1,5 @@
 <web-app>
+    <!--todolist-->
     <servlet>
         <servlet-name>ItemsServlet</servlet-name>
         <servlet-class>todolist.controllers.ItemsServlet</servlet-class>
@@ -8,4 +9,118 @@
         <servlet-name>ItemsServlet</servlet-name>
         <url-pattern>/items</url-pattern>
     </servlet-mapping>
+
+    <!--carselling-->
+    <servlet>
+        <servlet-name>LogIn</servlet-name>
+        <servlet-class>carselling.controllers.LogIn</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>LogIn</servlet-name>
+        <url-pattern>/login</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>LogOut</servlet-name>
+        <servlet-class>carselling.controllers.LogOut</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>LogOut</servlet-name>
+        <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>List</servlet-name>
+        <servlet-class>carselling.controllers.List</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>List</servlet-name>
+        <url-pattern>/list</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Create</servlet-name>
+        <servlet-class>carselling.controllers.Create</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Create</servlet-name>
+        <url-pattern>/create</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Update</servlet-name>
+        <servlet-class>carselling.controllers.Update</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Update</servlet-name>
+        <url-pattern>/update</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Delete</servlet-name>
+        <servlet-class>carselling.controllers.Delete</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Delete</servlet-name>
+        <url-pattern>/delete</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Upload</servlet-name>
+        <servlet-class>carselling.controllers.Upload</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Upload</servlet-name>
+        <url-pattern>/upload</url-pattern>
+    </servlet-mapping>
+
+    <filter>
+        <filter-name>CharsetFilter</filter-name>
+        <filter-class>carselling.filters.CharsetFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>CharsetFilter</filter-name>
+        <url-pattern>*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>ManageAdFilter</filter-name>
+        <filter-class>carselling.filters.ManageAdFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>ManageAdFilter</filter-name>
+        <url-pattern>/update</url-pattern>
+        <url-pattern>/delete</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>AuthFilter</filter-name>
+        <filter-class>carselling.filters.AuthFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>/create</url-pattern>
+    </filter-mapping>
+
+    <context-param>
+        <description>Location to store uploaded file</description>
+        <param-name>upload-directory</param-name>
+        <param-value>upload</param-value>
+    </context-param>
+
+    <context-param>
+        <description>Max size of file for Uploading - 40MB</description>
+        <param-name>max-file-size</param-name>
+        <param-value>41943040</param-value>
+    </context-param>
 </web-app>

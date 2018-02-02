@@ -2,11 +2,15 @@
 <hibernate-configuration>
     <session-factory>
         <property name="connection.driver_class">org.postgresql.Driver</property>
-        <property name="connection.url">jdbc:postgresql://localhost:5432/todolist_db</property>
+        <property name="connection.url">jdbc:postgresql://localhost:5432/carselling_db</property>
         <property name="connection.username">postgres</property>
         <property name="connection.password">password</property>
         <property name="dialect">org.hibernate.dialect.PostgreSQL94Dialect</property>
 
         <mapping resource="todolist/models/Item.hbm.xml"/>
+        <mapping resource="carselling/models/User.hbm.xml"/>
+        <mapping resource="carselling/models/Brand.hbm.xml"/>
+        <mapping resource="carselling/models/Carcase.hbm.xml"/>
+        <mapping resource="carselling/models/Advertisement.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>
