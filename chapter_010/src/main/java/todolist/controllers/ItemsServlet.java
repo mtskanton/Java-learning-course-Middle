@@ -6,6 +6,7 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import todolist.logic.ItemStorage;
 import todolist.models.Item;
 
 import javax.servlet.ServletException;
@@ -14,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.Writer;
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.util.List;
@@ -24,19 +24,18 @@ import java.util.List;
  */
 public class ItemsServlet extends HttpServlet {
 
+    private final ItemStorage storage = ItemStorage.getInstance();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        SessionFactory factory = new Configuration().configure().buildSessionFactory();
-        Session session = factory.openSession();
-        session.beginTransaction();
+        List<Item> list = null;
 
-        String sql = "from Item where done=false order by date";
         if (req.getParameter("include_done").equals("true")) {
-             sql = "from Item order by date";
+            list = storage.getAll();
+        } else {
+            list = storage.getAllUndone();
         }
-        Query query = session.createQuery(sql);
-        List<Item> list = query.list();
 
         JSONArray jsonArray = new JSONArray();
         for (Item item : list) {
@@ -51,10 +50,6 @@ public class ItemsServlet extends HttpServlet {
             jsonArray.add(jsonObject);
         }
 
-        session.getTransaction().commit();
-        session.close();
-        factory.close();
-
         Writer writer = resp.getWriter();
         writer.append(jsonArray.toJSONString());
 
@@ -63,9 +58,6 @@ public class ItemsServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        SessionFactory factory = new Configuration().configure().buildSessionFactory();
-        Session session = factory.openSession();
-        session.beginTransaction();
 
         String description = req.getParameter("item_description");
         String id = req.getParameter("item_id");
@@ -77,19 +69,12 @@ public class ItemsServlet extends HttpServlet {
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
             item.setDescription(description);
             item.setDate(timestamp);
-            session.save(item);
+            storage.add(item);
         }
 
         //если обновляем статус существующей записи
         if (id != null && done != null) {
-            Query query = session.createQuery("update Item set done=:isDone where id=:itemId");
-            query.setParameter("isDone", Boolean.valueOf(done));
-            query.setParameter("itemId", Integer.valueOf(id));
-            int u = query.executeUpdate();
+            storage.toggleDone(Integer.valueOf(id), Boolean.valueOf(done));
         }
-
-        session.getTransaction().commit();
-        session.close();
-        factory.close();
     }
 }
