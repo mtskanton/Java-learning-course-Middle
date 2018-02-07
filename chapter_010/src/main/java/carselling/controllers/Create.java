@@ -15,8 +15,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.IOException;
+import javax.servlet.http.Part;
+import java.io.*;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -26,7 +26,6 @@ import java.util.Date;
 public class Create extends HttpServlet {
 
     private String uploadPath;
-    private int maxFileSize;
 
     @Override
     public void init() throws ServletException {
@@ -37,8 +36,6 @@ public class Create extends HttpServlet {
         if (!uploadDir.exists()) {
             uploadDir.mkdir();
         }
-
-        maxFileSize = Integer.valueOf(getServletContext().getInitParameter("max-file-size"));
     }
 
     @Override
@@ -51,65 +48,33 @@ public class Create extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Advertisement ad = new Advertisement();
+        int brandId = Integer.valueOf(req.getParameter("brand"));
+        ad.setBrand(new Brand(brandId));
+        ad.setModel(req.getParameter("model"));
+        ad.setDescription(req.getParameter("description"));
+        ad.setYear(Integer.valueOf(req.getParameter("year")));
+        Integer carcaseId = Integer.valueOf(req.getParameter("carcase"));
+        ad.setCarcase(new Carcase(carcaseId));
+        ad.setPrice(Integer.valueOf(req.getParameter("price")));
+        Integer userId = Integer.valueOf(req.getParameter("user"));
+        ad.setUser(new User(userId));
+        ad.setDate(new Timestamp(new Date().getTime()));
+        ad.setSold(false);
+        DaoAdvertisement.getInstance().create(ad);
 
-        ServletFileUpload upload = new ServletFileUpload(new DiskFileItemFactory());
-        upload.setFileSizeMax(maxFileSize);
-
-        try {
-            java.util.List<FileItem> parts = upload.parseRequest(req);
-
-            //перебираем все простые поля
-            for (FileItem item : parts) {
-                if (item.isFormField()) {
-                    switch (item.getFieldName()) {
-                        case("brand"):
-                            Integer brandId = Integer.valueOf(item.getString());
-                            ad.setBrand(new Brand(brandId));
-                            break;
-                        case("model"):
-                            ad.setModel(item.getString("UTF-8"));
-                            break;
-                        case ("description"):
-                            ad.setDescription(item.getString("UTF-8"));
-                            break;
-                        case("year"):
-                            ad.setYear(Integer.valueOf(item.getString("UTF-8")));
-                            break;
-                        case("carcase"):
-                            Integer carcaseId = Integer.valueOf(item.getString("UTF-8"));
-                            ad.setCarcase(new Carcase(carcaseId));
-                            break;
-                        case("price"):
-                            ad.setPrice(Integer.valueOf(item.getString()));
-                            break;
-                        case("user"):
-                            Integer userId = Integer.valueOf(item.getString("UTF-8"));
-                            ad.setUser(new User(userId));
-                            break;
-                        default:
-                            break;
-                    }
+        String ext = null;
+        Part filePart = req.getPart("picture");
+        String content = filePart.getHeader("content-disposition").trim().replace("\"", "");
+        if (content.lastIndexOf(".") != -1 && content.lastIndexOf(".") != 0) {
+            ext =  content.substring(content.lastIndexOf("."));
+            try (InputStream filecontent = filePart.getInputStream();
+                OutputStream out = new FileOutputStream(new File(uploadPath + File.separator + ad.getId() + ext))) {
+                int read = 0;
+                final byte[] bytes = new byte[1024];
+                while ((read = filecontent.read(bytes)) != -1) {
+                    out.write(bytes, 0, read);
                 }
             }
-
-            ad.setDate(new Timestamp(new Date().getTime()));
-            ad.setSold(false);
-            DaoAdvertisement.getInstance().create(ad);
-
-            //находим поле с загруженным файлом
-            for (FileItem item : parts) {
-                if (!item.isFormField()) {
-                    if (item.getFieldName().equals("picture")) {
-                        String fileName = item.getName();
-                        if (fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0) {
-                            String ext =  fileName.substring(fileName.lastIndexOf("."));
-                            item.write(new File(uploadPath + File.separator + ad.getId() + ext));
-                        }
-                    }
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
 
         resp.sendRedirect(String.format("%s/list", req.getContextPath()));

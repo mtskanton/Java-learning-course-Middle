@@ -44,6 +44,11 @@
     <servlet>
         <servlet-name>Create</servlet-name>
         <servlet-class>carselling.controllers.Create</servlet-class>
+        <multipart-config>
+            <max-file-size>10485760</max-file-size>
+            <max-request-size>20971520</max-request-size>
+            <file-size-threshold>5242880</file-size-threshold>
+        </multipart-config>
     </servlet>
 
     <servlet-mapping>
@@ -54,6 +59,11 @@
     <servlet>
         <servlet-name>Update</servlet-name>
         <servlet-class>carselling.controllers.Update</servlet-class>
+        <multipart-config>
+            <max-file-size>10485760</max-file-size>
+            <max-request-size>20971520</max-request-size>
+            <file-size-threshold>5242880</file-size-threshold>
+        </multipart-config>
     </servlet>
 
     <servlet-mapping>
@@ -116,11 +126,5 @@
         <description>Location to store uploaded file</description>
         <param-name>upload-directory</param-name>
         <param-value>upload</param-value>
-    </context-param>
-
-    <context-param>
-        <description>Max size of file for Uploading - 40MB</description>
-        <param-name>max-file-size</param-name>
-        <param-value>41943040</param-value>
     </context-param>
 </web-app>
