@@ -6,8 +6,24 @@
 <head>
     <title>Список объявлений</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script>
+        function filterParams() {
+            var query = window.location.search.substring(1);
+            var vars = query.split("&");
+            for (var i=0;i<vars.length;i++) {
+                var pair = vars[i].split("=");
+                if (pair[0] == 'today') {
+                    document.getElementById("for_today").checked = true;
+                }
+                if (pair[0] == 'brand') {
+                    var br = document.getElementById("brand");
+                    br.options[pair[1]].selected = true;
+                }
+            }
+        }
+    </script>
 </head>
-<body>
+<body onload="filterParams()">
 <div class = "container">
     <div class="page-header"><h1>Список объявлений</h1></div>
 
@@ -19,6 +35,25 @@
     </c:if>
 
     <a class="btn btn-default" href="${path}/create">Разместить объявление</a> <br/><br/>
+
+    <div class="form-group row">
+        <div class="col-lg-3">
+            <form method="get" action="">
+                <input id="for_today" name="today" type="checkbox"/>
+                <label for="for_today">Обновления за сегодня</label>
+                <br/>
+                <label for="brand">Марка авто</label>
+                <select id="brand" class="form-control" name="brand">
+                    <option value=""></option>
+                    <c:forEach items="${brands}" var="brand">
+                        <option value="${brand.id}">${brand.name}</option>
+                    </c:forEach>
+                </select>
+                <br/>
+                <input class="btn btn-default mb-2" type="submit" value="Применить"/>
+            </form>
+        </div>
+    </div>
 
     <c:forEach items="${ads}" var="ad">
         <c:if test="${sessionScope.userId == ad.user.id}">
