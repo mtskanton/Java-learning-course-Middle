@@ -1,8 +1,7 @@
 package daopattern.db;
 
 import daopattern.entity.Role;
-
-import java.util.List;
+import java.util.Collection;
 
 /**
  * Интерфейс репозитория для роли.
@@ -10,5 +9,5 @@ import java.util.List;
 public interface RepositoryRole {
 
     //поиск всех связанных с ролью сущностей
-    List getRoleRelatedUsers(Role role);
+    Collection getRelatedUsers(Role role);
 }

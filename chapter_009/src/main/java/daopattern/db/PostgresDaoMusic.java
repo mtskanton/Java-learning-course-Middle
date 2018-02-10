@@ -21,16 +21,13 @@ public class PostgresDaoMusic implements DaoEntity<Music> {
     @Override
     public Music getById(int id) {
         Music music = null;
-
         try (PreparedStatement pst = this.conn.prepareStatement("SELECT * FROM music WHERE id = ?")) {
             pst.setInt(1, id);
             ResultSet rs = pst.executeQuery();
             rs.next();
-
             music = new Music();
             music.setId(id);
             music.setMusic(rs.getString("music"));
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -40,7 +37,6 @@ public class PostgresDaoMusic implements DaoEntity<Music> {
     @Override
     public List<Music> getAll() {
         List<Music> list = new ArrayList<>();
-
         try (Statement st = this.conn.createStatement()) {
             ResultSet rs = st.executeQuery("SELECT * FROM music");
             while (rs.next()) {
@@ -79,7 +75,7 @@ public class PostgresDaoMusic implements DaoEntity<Music> {
     @Override
     public void delete(Music music) {
         int id = music.getId();
-        if (!this.musicInUse(id)) {
+        if (!this.isUsed(id)) {
             try (PreparedStatement pst = this.conn.prepareStatement("DELETE FROM music WHERE id = ?")) {
                 pst.setInt(1, id);
                 pst.executeUpdate();
@@ -94,9 +90,8 @@ public class PostgresDaoMusic implements DaoEntity<Music> {
      * @param music жанр музыки
      * @return true, если используется
      */
-    private boolean musicInUse(int music) {
+    private boolean isUsed(int music) {
         boolean result = false;
-
         try (PreparedStatement pst = this.conn.prepareStatement("SELECT * FROM user_music WHERE music_id = ?")) {
             pst.setInt(1, music);
             ResultSet rs = pst.executeQuery();
@@ -106,7 +101,6 @@ public class PostgresDaoMusic implements DaoEntity<Music> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return result;
     }
 }

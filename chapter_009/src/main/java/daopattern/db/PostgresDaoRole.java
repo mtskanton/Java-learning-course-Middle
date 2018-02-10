@@ -1,7 +1,6 @@
 package daopattern.db;
 
 import daopattern.entity.Role;
-import daopattern.entity.User;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -22,16 +21,13 @@ public class PostgresDaoRole implements DaoEntity<Role>, RepositoryRole {
     @Override
     public Role getById(int id) {
         Role role = null;
-
         try (PreparedStatement pst = this.conn.prepareStatement("SELECT * FROM roles WHERE id = ?")) {
             pst.setInt(1, id);
             ResultSet rs = pst.executeQuery();
             rs.next();
-
             role = new Role();
             role.setId(id);
             role.setRole(rs.getString("role"));
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -41,7 +37,6 @@ public class PostgresDaoRole implements DaoEntity<Role>, RepositoryRole {
     @Override
     public List<Role> getAll() {
         List<Role> roles = new ArrayList<>();
-
         try (Statement st = this.conn.createStatement()) {
             ResultSet rs = st.executeQuery("SELECT * FROM roles");
             while (rs.next()) {
@@ -80,7 +75,7 @@ public class PostgresDaoRole implements DaoEntity<Role>, RepositoryRole {
     @Override
     public void delete(Role role) {
         int id = role.getId();
-        if (!this.roleInUse(id)) {
+        if (!this.isUsed(id)) {
             try (PreparedStatement pst = this.conn.prepareStatement("DELETE FROM roles WHERE id = ?")) {
                 pst.setInt(1, id);
                 pst.executeUpdate();
@@ -92,7 +87,7 @@ public class PostgresDaoRole implements DaoEntity<Role>, RepositoryRole {
 
     //пример возможной реализации
     @Override
-    public List<String[]> getRoleRelatedUsers(Role role) {
+    public List<String[]> getRelatedUsers(Role role) {
         List<String[]> list = new ArrayList<>();
         try (PreparedStatement pst = this.conn.prepareStatement("SELECT role, login, password, address FROM roles "
                 + "LEFT JOIN users ON roles.id=users.role_id "
@@ -108,7 +103,6 @@ public class PostgresDaoRole implements DaoEntity<Role>, RepositoryRole {
                 result[3] = rs.getString("address");
                 list.add(result);
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -120,9 +114,8 @@ public class PostgresDaoRole implements DaoEntity<Role>, RepositoryRole {
      * @param role роль
      * @return true, если используется
      */
-    private boolean roleInUse(int role) {
+    private boolean isUsed(int role) {
         boolean result = false;
-
         try (PreparedStatement pst = this.conn.prepareStatement("SELECT * FROM users WHERE role_id = ?")) {
             pst.setInt(1, role);
             ResultSet rs = pst.executeQuery();
@@ -132,7 +125,6 @@ public class PostgresDaoRole implements DaoEntity<Role>, RepositoryRole {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return result;
     }
 }

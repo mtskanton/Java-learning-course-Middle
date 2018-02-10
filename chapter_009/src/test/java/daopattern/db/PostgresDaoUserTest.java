@@ -152,7 +152,7 @@ public class PostgresDaoUserTest {
     @Test
     public void whenSearchByAddressThenFind() {
         String address = "ra";
-        List<User> users = pdu.getUsersByAddress(address);
+        List<User> users = pdu.getByAddress(address);
         assertThat(users.size(), is(2));
         assertThat(users.get(0).getLogin(), is("root"));
         assertThat(users.get(1).getLogin(), is("user"));
@@ -164,11 +164,11 @@ public class PostgresDaoUserTest {
         Role admin = pdr.getById(1);
         Role user = pdr.getById(2);
 
-        List<User> admins = pdu.getUsersByRole(admin);
+        List<User> admins = pdu.getByRole(admin);
         assertThat(admins.size(), is(1));
         assertThat(admins.get(0).getLogin(), is("root"));
 
-        List<User> users = pdu.getUsersByRole(user);
+        List<User> users = pdu.getByRole(user);
         assertThat(users.size(), is(2));
         assertThat(users.get(0).getLogin(), is("user"));
         assertThat(users.get(1).getLogin(), is("third"));

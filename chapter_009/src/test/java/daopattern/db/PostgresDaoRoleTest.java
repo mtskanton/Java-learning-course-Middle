@@ -70,7 +70,7 @@ public class PostgresDaoRoleTest {
     @Test
     public void whenRequestRoleRelatedItemsThenGetAll() {
         Role role = pdr.getById(2);
-        List<String[]> list = pdr.getRoleRelatedUsers(role);
+        List<String[]> list = pdr.getRelatedUsers(role);
 
         assertThat(list.size(), is(2));
         String[] first = list.get(0);

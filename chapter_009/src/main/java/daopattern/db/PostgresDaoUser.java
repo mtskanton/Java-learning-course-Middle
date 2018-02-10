@@ -24,14 +24,11 @@ public class PostgresDaoUser implements DaoEntity<User>, RepositoryUser {
     @Override
     public User getById(int id) {
         User user = null;
-
         try (PreparedStatement pst = this.conn.prepareStatement("SELECT * FROM users WHERE id = ?")) {
             pst.setInt(1, id);
             ResultSet rs = pst.executeQuery();
             rs.next();
-
             user = this.gainUser(rs);
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -41,7 +38,6 @@ public class PostgresDaoUser implements DaoEntity<User>, RepositoryUser {
     @Override
     public List<User> getAll() {
         List<User> users = new ArrayList<>();
-
         try (Statement st = this.conn.createStatement()) {
             ResultSet rs = st.executeQuery("SELECT * FROM users");
             while (rs.next()) {
@@ -58,20 +54,16 @@ public class PostgresDaoUser implements DaoEntity<User>, RepositoryUser {
     public void create(User user) {
         PreparedStatement pst = null;
         try {
-
             Role role = user.getRole();
             Address address = user.getAddress();
             List<Music> music = user.getMusic();
-
             this.conn.setAutoCommit(false);
-
             pst = this.conn.prepareStatement("INSERT INTO addresses (address) VALUES (?)", new String[]{"id"});
             pst.setString(1, address.getAddress());
             pst.executeUpdate();
             ResultSet addressKey = pst.getGeneratedKeys();
             addressKey.next();
             int addressId = addressKey.getInt("id");
-
             pst = this.conn.prepareStatement("INSERT INTO users VALUES "
             + "(DEFAULT, ?, ?, ?, ?);", new String[] {"id"});
             pst.setString(1, user.getLogin());
@@ -79,17 +71,13 @@ public class PostgresDaoUser implements DaoEntity<User>, RepositoryUser {
             pst.setInt(3, role.getId());
             pst.setInt(4, addressId);
             pst.executeUpdate();
-
             ResultSet userKey = pst.getGeneratedKeys();
             userKey.next();
             int userId = userKey.getInt("id");
-
-            this.addUserMusic(userId, music);
-
+            this.addMusic(userId, music);
             this.conn.commit();
             this.conn.setAutoCommit(true);
             pst.close();
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -105,32 +93,24 @@ public class PostgresDaoUser implements DaoEntity<User>, RepositoryUser {
             Role role = user.getRole();
             Address address = user.getAddress();
             List<Music> music = user.getMusic();
-
             this.conn.setAutoCommit(false);
-
             pst = this.conn.prepareStatement("UPDATE addresses SET address = ? WHERE id = ?");
             pst.setString(1, address.getAddress());
             pst.setInt(2, address.getId());
             pst.executeUpdate();
-
-            pst = this.conn.prepareStatement("UPDATE users "
-                    + "SET login = ?, password = ?, role_id = ? WHERE id = ?");
+            pst = this.conn.prepareStatement("UPDATE users SET login = ?, password = ?, role_id = ? WHERE id = ?");
             pst.setString(1, login);
             pst.setString(2, password);
             pst.setInt(3, role.getId());
             pst.setInt(4, id);
             pst.executeUpdate();
-
             pst = this.conn.prepareStatement("DELETE FROM user_music WHERE user_id = ?");
             pst.setInt(1, id);
             pst.executeUpdate();
-
-            this.addUserMusic(id, music);
-
+            this.addMusic(id, music);
             this.conn.commit();
             this.conn.setAutoCommit(true);
             pst.close();
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -144,15 +124,12 @@ public class PostgresDaoUser implements DaoEntity<User>, RepositoryUser {
             PreparedStatement pst = this.conn.prepareStatement("DELETE FROM user_music WHERE user_id = ?");
             pst.setInt(1, id);
             pst.executeUpdate();
-
             pst = this.conn.prepareStatement("DELETE FROM users WHERE id = ?");
             pst.setInt(1, id);
             pst.executeUpdate();
-
             pst = this.conn.prepareStatement("DELETE FROM addresses WHERE id = ?");
             pst.setInt(1, addressId);
             pst.executeUpdate();
-
             pst.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -160,7 +137,7 @@ public class PostgresDaoUser implements DaoEntity<User>, RepositoryUser {
     }
 
     @Override
-    public List<User> getUsersByAddress(String address) {
+    public List<User> getByAddress(String address) {
         List<User> users = new ArrayList<>();
 
         try (PreparedStatement pst = this.conn.prepareStatement("SELECT u.id id, login, password, role_id, address_id FROM users u JOIN addresses a ON u.address_id=a.id WHERE address LIKE ?")) {
@@ -177,13 +154,12 @@ public class PostgresDaoUser implements DaoEntity<User>, RepositoryUser {
     }
 
     @Override
-    public List<User> getUsersByRole(Role role) {
+    public List<User> getByRole(Role role) {
         List<User> users = new ArrayList<>();
 
         try (PreparedStatement pst = this.conn.prepareStatement("SELECT * FROM users u JOIN roles r ON u.role_id=r.id WHERE r.id = ?")) {
             pst.setInt(1, role.getId());
             ResultSet rs = pst.executeQuery();
-
             while (rs.next()) {
                 User user = this.gainUser(rs);
                 users.add(user);
@@ -196,7 +172,7 @@ public class PostgresDaoUser implements DaoEntity<User>, RepositoryUser {
 
 
     /**
-     * Сбор пользователя.
+     * Сбор пользователя. Объект заполняется значениями из переданного ResultSet.
      * @param rs результат выборки из БД
      * @return собранного пользователя
      * @throws SQLException при ошибке во время SQL запроса
@@ -207,9 +183,9 @@ public class PostgresDaoUser implements DaoEntity<User>, RepositoryUser {
         user.setId(id);
         user.setLogin(rs.getString("login"));
         user.setPassword(rs.getString("password"));
-        user.setRole(this.getUserRole(rs.getInt("role_id")));
-        user.setAddress(this.getUserAddress(rs.getInt("address_id")));
-        user.setMusic(this.getUserMusic(id));
+        user.setRole(this.getRole(rs.getInt("role_id")));
+        user.setAddress(this.getAddress(rs.getInt("address_id")));
+        user.setMusic(this.getMusic(id));
         return user;
     }
 
@@ -219,16 +195,14 @@ public class PostgresDaoUser implements DaoEntity<User>, RepositoryUser {
      * @return роль
      * @throws SQLException при ошибке во время SQL запроса
      */
-    private Role getUserRole(int roleId) throws SQLException {
+    private Role getRole(int roleId) throws SQLException {
         PreparedStatement pst = this.conn.prepareStatement("SELECT * FROM roles WHERE id = ?");
         pst.setInt(1, roleId);
         ResultSet rs = pst.executeQuery();
         rs.next();
-
         Role role = new Role();
         role.setId(rs.getInt("id"));
         role.setRole(rs.getString("role"));
-
         pst.close();
         return role;
     }
@@ -239,16 +213,14 @@ public class PostgresDaoUser implements DaoEntity<User>, RepositoryUser {
      * @return адрес
      * @throws SQLException при ошибке во время SQL запроса
      */
-    private Address getUserAddress(int addressId) throws SQLException {
+    private Address getAddress(int addressId) throws SQLException {
         PreparedStatement pst = this.conn.prepareStatement("SELECT * FROM addresses WHERE id = ?");
         pst.setInt(1, addressId);
         ResultSet rs = pst.executeQuery();
         rs.next();
-
         Address address = new Address();
         address.setId(rs.getInt("id"));
         address.setAddress(rs.getString("address"));
-
         rs.close();
         return address;
     }
@@ -259,11 +231,10 @@ public class PostgresDaoUser implements DaoEntity<User>, RepositoryUser {
      * @return список жанров музыки
      * @throws SQLException при ошибке во время SQL запроса
      */
-    private List<Music> getUserMusic(int userId) throws SQLException {
+    private List<Music> getMusic(int userId) throws SQLException {
         PreparedStatement pst = this.conn.prepareStatement("SELECT id, music FROM user_music JOIN music ON user_music.music_id = music.id WHERE user_id = ?;");
         pst.setInt(1, userId);
         ResultSet rs = pst.executeQuery();
-
         List<Music> list = new ArrayList<>();
         while (rs.next()) {
             Music music = new Music();
@@ -271,7 +242,6 @@ public class PostgresDaoUser implements DaoEntity<User>, RepositoryUser {
             music.setMusic(rs.getString("music"));
             list.add(music);
         }
-
         rs.close();
         return list;
     }
@@ -282,7 +252,7 @@ public class PostgresDaoUser implements DaoEntity<User>, RepositoryUser {
      * @param music список жанров музыки
      * @throws SQLException при ошибке во время SQL запроса
      */
-    private void addUserMusic(int id, List<Music> music) throws SQLException {
+    private void addMusic(int id, List<Music> music) throws SQLException {
         PreparedStatement pst = null;
         for (Music m : music) {
             pst = this.conn.prepareStatement("INSERT INTO user_music VALUES (?, ?)");

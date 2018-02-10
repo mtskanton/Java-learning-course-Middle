@@ -11,8 +11,8 @@ import java.util.List;
 public interface RepositoryUser {
 
     //поиск пользователей по адресу
-    List<User> getUsersByAddress(String address);
+    List<User> getByAddress(String address);
 
     //поиск пользователей по роли
-    List<User> getUsersByRole(Role role);
+    List<User> getByRole(Role role);
 }
