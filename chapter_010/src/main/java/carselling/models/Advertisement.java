@@ -2,6 +2,7 @@ package carselling.models;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Объявление.
@@ -108,6 +109,32 @@ public class Advertisement implements Comparable<Advertisement> {
     @Override
     public int compareTo(Advertisement o) {
         return o.getDate().compareTo(this.date);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Advertisement that = (Advertisement) o;
+        return id == that.id
+                && year == that.year
+                && price == that.price
+                && sold == that.sold
+                && Objects.equals(brand, that.brand)
+                && Objects.equals(model, that.model)
+                && Objects.equals(description, that.description)
+                && Objects.equals(carcase, that.carcase)
+                && Objects.equals(date, that.date)
+                && Objects.equals(user, that.user);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, brand, model, description, year, carcase, price, date, sold, user);
     }
 }
 

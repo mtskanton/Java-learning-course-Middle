@@ -6,6 +6,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * DAO сущности марка автомобиля.
@@ -39,8 +40,12 @@ public class DaoBrand implements IDao<Brand> {
     }
 
     @Override
-    public void create(Brand entity) {
-
+    public void create(Brand brand) {
+        try (Session session = factory.openSession()) {
+            session.beginTransaction();
+            session.save(brand);
+            session.getTransaction().commit();
+        }
     }
 
     @Override

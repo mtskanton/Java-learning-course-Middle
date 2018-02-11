@@ -39,8 +39,12 @@ public class DaoCarcase implements IDao<Carcase> {
     }
 
     @Override
-    public void create(Carcase entity) {
-
+    public void create(Carcase carcase) {
+        try (Session session = factory.openSession()) {
+            session.beginTransaction();
+            session.save(carcase);
+            session.getTransaction().commit();
+        }
     }
 
     @Override
