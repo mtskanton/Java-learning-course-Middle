@@ -24,6 +24,7 @@
 		<module>chapter_XML</module>
 		<module>chapter_IO</module>
         <module>chapter_010</module>
+        <module>chapter_011</module>
     </modules>
 
 	<dependencies>
