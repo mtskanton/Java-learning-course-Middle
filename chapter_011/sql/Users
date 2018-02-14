@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS Users (
+  id SERIAL,
+  name VARCHAR(20),
+  email VARCHAR(20),
+  CONSTRAINT users_pk PRIMARY KEY (id)
+);
