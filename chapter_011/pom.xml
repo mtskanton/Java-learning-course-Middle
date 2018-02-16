@@ -1,8 +1,12 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>chapter_011</artifactId>
-    <packaging>war</packaging>
-	
+    <packaging>pom</packaging>
+    <modules>
+        <module>mvc_xml</module>
+        <module>mvc_annotations</module>
+    </modules>
+
     <parent>
         <artifactId>junior</artifactId>
         <groupId>ru.job4j</groupId>
@@ -36,6 +40,25 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
             <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
