@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="org.postgresql.Driver" />
+        <property name="url" value="jdbc:postgresql://localhost:5432/carselling_db" />
+        <property name="username" value="postgres" />
+        <property name="password" value="password" />
+    </bean>
+
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="mappingResources">
+            <list>
+                <value>carselling/model/User.hbm.xml</value>
+                <value>carselling/model/Brand.hbm.xml</value>
+                <value>carselling/model/Carcase.hbm.xml</value>
+                <value>carselling/model/Advertisement.hbm.xml</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <value>hibernate.dialect = org.hibernate.dialect.PostgreSQL94Dialect</value>
+        </property>
+    </bean>
+
+    <bean id="daoAdvertisement" class="carselling.logic.DaoAdvertisement">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="daoBrand" class="carselling.logic.DaoBrand">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="daoCarcase" class="carselling.logic.DaoCarcase">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="daoUser" class="carselling.logic.DaoUser">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="200000" />
+    </bean>
+</beans>
