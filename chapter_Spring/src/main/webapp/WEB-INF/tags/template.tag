@@ -51,6 +51,9 @@
                 <li>
                     <a href="file.html">File upload</a>
                 </li>
+                <li>
+                    <a href="jdbc.html">JDBC</a>
+                </li>
             </ul>
         </div>
         <!-- /.navbar-collapse -->

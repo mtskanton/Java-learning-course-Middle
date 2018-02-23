@@ -12,6 +12,9 @@
 
     <mvc:annotation-driven/>
 
+    <!-- Static Resources Configuration (get access to static sources such as CSS and JavaScript files) -->
+    <mvc:resources mapping="/resources/**" location="/resources/" cache-period="10" />
+
     <!--will scan @Component, @Repository, @Service, @Controller and also resolves @Autowired and @Qualifier -->
     <context:component-scan base-package="application"/>
 
@@ -27,5 +30,5 @@
     <mvc:view-controller path="/about.html" view-name="/about/about"/>
     <mvc:view-controller path="/index.html" view-name="/index"/>
     <mvc:view-controller path="/file.html" view-name="/file/file"/>
-
+    <mvc:view-controller path="/jdbc.html" view-name="/jdbc/jdbc"/>
 </beans>
