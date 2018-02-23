@@ -54,6 +54,9 @@
                 <li>
                     <a href="jdbc.html">JDBC</a>
                 </li>
+                <li>
+                    <a href="exception">Exception</a>
+                </li>
             </ul>
         </div>
         <!-- /.navbar-collapse -->

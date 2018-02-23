@@ -31,4 +31,5 @@
     <mvc:view-controller path="/index.html" view-name="/index"/>
     <mvc:view-controller path="/file.html" view-name="/file/file"/>
     <mvc:view-controller path="/jdbc.html" view-name="/jdbc/jdbc"/>
+    <mvc:view-controller path="/exception" view-name="/error/exception"/>
 </beans>
