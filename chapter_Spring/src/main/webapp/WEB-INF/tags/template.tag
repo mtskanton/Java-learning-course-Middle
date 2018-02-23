@@ -57,6 +57,12 @@
                 <li>
                     <a href="exception">Exception</a>
                 </li>
+                <li>
+                    <a href="scope">Scope</a>
+                </li>
+                <li>
+                    <a href="cookie">Cookie</a>
+                </li>
             </ul>
         </div>
         <!-- /.navbar-collapse -->

@@ -1,4 +1,4 @@
-package application.mvc.file;
+package application.mvc.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,7 +28,7 @@ public class FileUploadController {
     @RequestMapping(value = "/uploadFile")
     public @ResponseBody String uploadFile(@RequestParam("file") MultipartFile file) {
 
-        if(!file.isEmpty()) {
+        if (!file.isEmpty()) {
             try {
                 byte[] bytes = file.getBytes();
                 String rootPath = System.getProperty("catalina.home");
