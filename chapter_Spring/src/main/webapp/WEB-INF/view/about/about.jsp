@@ -1,16 +1,34 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: DELL
-  Date: 19.02.2018
-  Time: 22:51
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>Title</title>
-</head>
-<body>
+<!DOCTYPE html>
 
-</body>
-</html>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="page" tagdir="/WEB-INF/tags" %>
+
+<page:template>
+    <jsp:attribute name="title">About</jsp:attribute>
+
+    <jsp:body>
+        <!-- Page Content -->
+        <div class="container">
+
+            <!-- Page Heading/Breadcrumbs -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Страница с описанием</h1>
+                    <ol class="breadcrumb">
+                        <li><a href="index.html">Home</a>
+                        </li>
+                        <li class="active">About</li>
+                    </ol>
+                </div>
+            </div>
+            <!-- /.row -->
+
+            <hr>
+
+        </div>
+        <!-- /.container -->
+    </jsp:body>
+
+</page:template>

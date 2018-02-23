@@ -20,7 +20,12 @@
         <property name="suffix" value=".jsp"/>
     </bean>
 
-    <!--<mvc:view-controller path="/about.html" view-name="/about/about"/>-->
-    <!--<mvc:view-controller path="/index.html" view-name="/index"/>-->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="200000" />
+    </bean>
+
+    <mvc:view-controller path="/about.html" view-name="/about/about"/>
+    <mvc:view-controller path="/index.html" view-name="/index"/>
+    <mvc:view-controller path="/file.html" view-name="/file/file"/>
 
 </beans>
