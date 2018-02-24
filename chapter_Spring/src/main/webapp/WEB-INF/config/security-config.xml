@@ -1,0 +1,41 @@
+<?xml version= "1.0" encoding= "UTF-8"?>
+<beans:beans xmlns:beans= "http://www.springframework.org/schema/beans"
+             xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+             xmlns= "http://www.springframework.org/schema/security"
+             xsi:schemaLocation= "http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans.xsd
+                http://www.springframework.org/schema/security
+                http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <!-- auto-config= "true" > Automatically registers a login form, BASIC authentication,
+    logout services. use-expressions Enables EL-expressions in the access attribute -->
+    <http auto-config= "true" use-expressions= "true"  >
+
+        <intercept-url pattern= "/security/**" access= "hasRole('ADMIN')"/>
+        <intercept-url pattern= "/user/**" access= "hasRole('USER')"/>
+
+        <form-login login-page= "/login.html"
+                    username-parameter= "j_username"
+                    password-parameter= "j_password"
+                    login-processing-url= "/j_spring_security_check"
+                    authentication-failure-url= "/login.html?error=true" />
+
+        <logout logout-url= "/j_spring_security_logout" logout-success-url= "/"/>
+
+        <remember-me key= "myKey" token-validity-seconds= "300"/>
+
+        <csrf disabled= "true"/>
+
+    </http>
+
+    <authentication-manager>
+        <authentication-provider>
+            <user-service>
+                <user name="admin@gmail.com" password="123" authorities="ROLE_ADMIN"/>
+                <user name="user@gmail.com" password="123" authorities="ROLE_USER"/>
+                <user name="test@gmail.com" password="123" authorities="ROLE_SUPER_USER"/>
+            </user-service>
+        </authentication-provider>
+    </authentication-manager>
+
+</beans:beans>

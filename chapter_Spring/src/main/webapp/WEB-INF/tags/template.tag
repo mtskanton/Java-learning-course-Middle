@@ -2,6 +2,7 @@
 <%@tag description="Template Site tag" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 
 <%@attribute name="title" fragment="true" %>
 
@@ -9,7 +10,7 @@
     <title><jsp:invoke fragment="title"/></title>
 
     <!-- Bootstrap Core CSS -->
-    <spring:url value="resources/css/bootstrap.css" var="bootstrap"/>
+    <spring:url value="/resources/css/bootstrap.css" var="bootstrap"/>
     <link href="${bootstrap}" rel="stylesheet" />
 
     <!-- Custom CSS -->
@@ -32,6 +33,15 @@
 
 <body>
 
+<c:url value="/about.html" var="about"/>
+<c:url value="/file.html" var="file"/>
+<c:url value="/jdbc.html" var="jdbc"/>
+<c:url value="/exception" var="exception" />
+<c:url value="/scope" var="scope" />
+<c:url value="/cookie" var="cookieView" />
+<c:url value="/security.html" var="security" />
+<c:url value="/login.html" var="login"/>
+
 <!-- Navigation -->
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
@@ -45,23 +55,50 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
+
+                <security:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_SUPER_USER', 'ROLE_USER')" var="isUSer"/>
+                <c:if test="${not isUSer}">
+                    <li style="padding-top: 15px; padding-bottom: 15px; color: red">
+                        <c:if test="${empty param.error}">
+                            Вы не вошли в приложение
+                        </c:if>
+                    </li>
+                    <li> <a style="color: Green;" href="${login}">Login</a> </li>
+                </c:if>
+                <c:if test="${isUSer}">
+                    <li style="padding-top: 15px; padding-bottom: 15px; color: green">
+                        Вы вошли как:
+                        <security:authentication property="principal.username"/> с ролью:
+                        <b><security:authentication property="principal.authorities"/></b>
+
+                    </li>
+                    <li> <a style="color: red;" href="<c:url value="/j_spring_security_logout"/>">Logout</a> </li>
+                </c:if>
                 <li>
-                    <a href="about.html">About</a>
+                    <a href="${about}">About</a>
                 </li>
-                <li>
-                    <a href="file.html">File upload</a>
-                </li>
-                <li>
-                    <a href="jdbc.html">JDBC</a>
-                </li>
-                <li>
-                    <a href="exception">Exception</a>
-                </li>
-                <li>
-                    <a href="scope">Scope</a>
-                </li>
-                <li>
-                    <a href="cookie">Cookie</a>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tutorial<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="${file}">File upload</a>
+                        </li>
+                        <li>
+                            <a href="${jdbc}">JDBC</a>
+                        </li>
+                        <li>
+                            <a href="${exception}">Exception</a>
+                        </li>
+                        <li>
+                            <a href="${scope}">Scope</a>
+                        </li>
+                        <li>
+                            <a href="${cookie}">Cookie</a>
+                        </li>
+                        <li>
+                            <a href="${security}">Spring Security</a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </div>

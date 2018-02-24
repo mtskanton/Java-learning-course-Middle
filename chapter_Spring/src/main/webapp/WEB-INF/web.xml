@@ -3,16 +3,19 @@
 
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>WEB-INF/config/application-context.xml</param-value>
+        <param-value>
+            WEB-INF/config/application-context.xml
+            WEB-INF/config/security-config.xml
+        </param-value>
     </context-param>
 
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
 
-    <!--<listener>-->
-        <!--<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>-->
-    <!--</listener>-->
+    <listener>
+        <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+    </listener>
 
     <servlet>
         <servlet-name>dispatcherServlet</servlet-name>
@@ -35,7 +38,7 @@
 
     <error-page>
         <error-code>404</error-code>
-        <location>/WEB-INF/view/errorpage.jsp</location>
+        <location>/WEB-INF/view/error/error.jsp</location>
     </error-page>
 
     <filter>
@@ -52,6 +55,15 @@
     </filter>
     <filter-mapping>
         <filter-name>encodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>springSecurityFilterChain</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 </web-app>

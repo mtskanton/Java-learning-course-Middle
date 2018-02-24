@@ -3,12 +3,15 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:context = "http://www.springframework.org/schema/context"
+       xmlns:security= "http://www.springframework.org/schema/security"
        xsi:schemaLocation="http://www.springframework.org/schema/mvc
                            http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
                            http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
                            http://www.springframework.org/schema/context
-                           http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+                           http://www.springframework.org/schema/context/spring-context-4.3.xsd
+                           http://www.springframework.org/schema/security
+                           http://www.springframework.org/schema/security/spring-security.xsd">
 
     <mvc:annotation-driven/>
 
@@ -17,6 +20,9 @@
 
     <!--will scan @Component, @Repository, @Service, @Controller and also resolves @Autowired and @Qualifier -->
     <context:component-scan base-package="application"/>
+
+    <!--Spring security enabled annotations-->
+    <security:global-method-security pre-post-annotations= "enabled" secured-annotations= "enabled" jsr250-annotations= "enabled"/>
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/view/"/>
@@ -35,5 +41,8 @@
     <mvc:view-controller path="/scope" view-name="/scope/scope"/>
     <mvc:view-controller path="/checkScope" view-name="/scope/checkScope"/>
     <mvc:view-controller path="/cookie" view-name="/cookie/cookie"/>
+    <mvc:view-controller path="/login.html" view-name="/form/login"/>
+    <mvc:view-controller path="/security.html" view-name="/security/security"/>
+    <mvc:view-controller path="/security/admin.html" view-name="/security/admin"/>
 
 </beans>
