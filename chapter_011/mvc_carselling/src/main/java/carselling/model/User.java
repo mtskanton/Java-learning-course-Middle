@@ -1,6 +1,8 @@
 package carselling.model;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * Модель - пользователь.
@@ -12,6 +14,8 @@ public class User {
     private String login;
     private String password;
     private long phone;
+    private boolean enabled;
+    private Set<Role> roles = new HashSet<>();
 
     public User() { }
 
@@ -59,6 +63,22 @@ public class User {
         this.phone = phone;
     }
 
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -70,13 +90,15 @@ public class User {
         User user = (User) o;
         return id == user.id
                 && phone == user.phone
+                && enabled == user.enabled
                 && Objects.equals(name, user.name)
                 && Objects.equals(login, user.login)
-                && Objects.equals(password, user.password);
+                && Objects.equals(password, user.password)
+                && Objects.equals(roles, user.roles);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, login, password, phone);
+        return Objects.hash(id, name, login, password, phone, enabled, roles);
     }
 }

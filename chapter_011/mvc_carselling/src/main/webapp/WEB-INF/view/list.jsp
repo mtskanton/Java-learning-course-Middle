@@ -27,6 +27,7 @@
 <div class = "container">
     <div class="page-header"><h1>Список объявлений</h1></div>
 
+    <a class="btn btn-default" href="${pageContext.request.contextPath}/logout">Выйти</a>
     <a class="btn btn-default" href="${pageContext.request.contextPath}/create">Разместить объявление</a> <br/><br/>
 
     <div class="form-group row">

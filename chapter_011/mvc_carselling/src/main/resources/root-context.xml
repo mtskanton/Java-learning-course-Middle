@@ -19,6 +19,7 @@
                 <value>carselling/model/Brand.hbm.xml</value>
                 <value>carselling/model/Carcase.hbm.xml</value>
                 <value>carselling/model/Advertisement.hbm.xml</value>
+                <value>carselling/model/Role.hbm.xml</value>
             </list>
         </property>
         <property name="hibernateProperties">

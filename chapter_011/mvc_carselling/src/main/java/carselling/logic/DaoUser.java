@@ -64,4 +64,17 @@ public class DaoUser implements IDao<User> {
             return (User) query.uniqueResult();
         }
     }
+
+    /**
+     * Метод поиска пользователя по логину для аутентификации.
+     * @param login логин
+     * @return пользователь, найденный по логину
+     */
+    public User getByLogin(String login) {
+        try (Session session = factory.openSession()) {
+            Query query = session.createQuery("from User where login=:login");
+            query.setParameter("login", login);
+            return (User) query.uniqueResult();
+        }
+    }
 }

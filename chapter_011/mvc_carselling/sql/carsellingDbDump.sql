@@ -1,11 +1,29 @@
-DROP TABLE advertisements; DROP TABLE carcases; DROP TABLE  brands; DROP TABLE users;
+DROP TABLE IF EXISTS advertisements;
+DROP TABLE IF EXISTS carcases;
+DROP TABLE IF EXISTS brands;
+DROP TABLE IF EXISTS users_roles;
+DROP TABLE IF EXISTS roles;
+DROP TABLE IF EXISTS users;
 
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     name VARCHAR(50),
     login VARCHAR(50),
     password VARCHAR(50),
-    phone BIGINT
+    phone BIGINT,
+    enabled  BOOLEAN
+);
+
+CREATE TABLE IF NOT EXISTS roles (
+    id SERIAL PRIMARY KEY,
+    role VARCHAR(50)
+);
+
+CREATE TABLE IF NOT EXISTS users_roles (
+    id_user INT,
+    id_role INT,
+    CONSTRAINT fk_ur_user FOREIGN KEY (id_user) REFERENCES users (id),
+    CONSTRAINT fk_ur_role FOREIGN KEY (id_role) REFERENCES roles (id)
 );
 
 CREATE TABLE IF NOT EXISTS carcases (
@@ -34,8 +52,16 @@ CREATE TABLE IF NOT EXISTS advertisements (
     CONSTRAINT fk_adv_users FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
-INSERT INTO users VALUES (DEFAULT, 'Anton', 'a', 'a', 89271111111);
-INSERT INTO users VALUES (DEFAULT, 'Boris', 'b', 'b', 89272222222);
+INSERT INTO users VALUES (DEFAULT, 'Anton', 'a', 'a', 89271111111, 'true');
+INSERT INTO users VALUES (DEFAULT, 'Boris', 'b', 'b', 89272222222, 'true');
+INSERT INTO users VALUES (DEFAULT, 'Chris', 'c', 'c', 89272222222, 'false');
+
+INSERT INTO roles VALUES (DEFAULT, 'ROLE_USER');
+INSERT INTO roles VALUES (DEFAULT, 'ROLE_ADMIN');
+
+INSERT INTO users_roles VALUES (1, 1);
+INSERT INTO users_roles VALUES (1, 2);
+INSERT INTO users_roles VALUES (2, 1);
 
 INSERT INTO carcases VALUES (DEFAULT, 'седан');
 INSERT INTO carcases VALUES (DEFAULT, 'хэтчбек');

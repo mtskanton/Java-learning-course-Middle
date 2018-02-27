@@ -1,0 +1,8 @@
+<hibernate-mapping>
+    <class name="carselling.model.Role" table="roles">
+        <id name="id" column="id">
+            <generator class="identity"/>
+        </id>
+        <property name="role" column="role"/>
+    </class>
+</hibernate-mapping>
