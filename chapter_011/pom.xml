@@ -6,6 +6,7 @@
         <module>mvc_xml</module>
         <module>mvc_annotations</module>
         <module>mvc_carselling</module>
+        <module>mvc_carselling_boot</module>
     </modules>
 
     <parent>

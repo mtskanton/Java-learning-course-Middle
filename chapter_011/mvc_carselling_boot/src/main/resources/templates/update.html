@@ -1,0 +1,89 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Редактировать объявление</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}"/>
+</head>
+
+<body>
+<div class="container">
+    <div class="page-header"><h1>Редактировать объявление</h1></div>
+
+    <form th:action="@{/update}" enctype="multipart/form-data" method="post">
+        <div class="form-group row">
+            <div class="col-xs-4">
+                <label for="sold">Продано</label>
+                <input th:checked="${ad.sold} == true" id="sold" class="form-control" name="sold" type="checkbox"/>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-xs-4">
+                <label for="brand">Марка</label>
+                <select id="brand" class="form-control" name="brand_id" required="required">
+
+                    <th:block th:each="brand : ${brands}">
+                        <option th:selected="${brand.id == ad.brand.id}" th:value="${brand.id}" th:utext="${brand.name}"></option>
+                    </th:block>
+
+                </select >
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-xs-4">
+                <label for="model">Модель</label>
+                <input id="model" class="form-control" name="model" type="text" th:value="${ad.model}" required="required"/>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-xs-4">
+                <label for="year">Год выпуска</label>
+                <input id="year" class="form-control" name="year" type="number" th:value="${ad.year}" min="1900" max="2018"  required="required"/>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-xs-4">
+                <label for="carcase">Кузов</label>
+                <select id="carcase" class="form-control" name="carcase_id" required="required">
+                    <th:block th:each="carcase : ${carcases}">
+                        <option th:value="${carcase.id}" th:utext="${carcase.type}" th:selected="${carcase.id == ad.carcase.id}"></option>
+                    </th:block>
+                </select >
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-xs-4">
+                <label for="price">Цена, в рублях</label>
+                <input id="price" class="form-control" name="price" type="number" th:value="${ad.price}" step="1000" required="required"/>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-xs-4">
+                <label for="description">Описание</label>
+                <textarea id="description" class="form-control" name="description" th:text="${ad.description}"></textarea>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-xs-4">
+                <label for="picture">Изображение (только jpeg)</label>
+                <input id="picture" class="form-control" name="picture" type="file" accept="image/jpeg"/>
+            </div>
+        </div>
+
+        <input name="id" type="hidden" th:value="${ad.id}"/>
+        <input name="user_id" type="hidden" th:value="${ad.user.id}"/>
+
+        <div class="form-group row">
+            <div class="col-xs-4">
+                <input class="btn btn-default" type="submit" value="Сохранить"/>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>
