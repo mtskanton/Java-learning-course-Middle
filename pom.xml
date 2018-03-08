@@ -27,6 +27,7 @@
 		<module>chapter_IO</module>
 		<module>chapter_Spring</module>
 		<module>chapter_Spring_Security</module>
+		<module>chapter_Spring_Boot</module>
 	</modules>
 
 	<dependencies>

@@ -1,0 +1,19 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Account</title>
+
+    <div th:replace="fragments/header :: header-css"/>
+</head>
+<body>
+    <div th:replace="fragments/header :: main-menu"/>
+
+    <div class="container">
+        <div class="page-header"><h1>Данные аккаунта</h1></div>
+        id : <span th:text="${account.id}"/><br/>
+        имя : <span th:text="${account.name}"/><br/>
+        баланс счета : <span th:text="${account.balance}"/><br/>
+    </div>
+
+    <div th:replace="fragments/footer :: footer"/>
+</body>
+</html>
