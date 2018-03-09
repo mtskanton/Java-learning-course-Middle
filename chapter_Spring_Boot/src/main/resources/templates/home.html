@@ -1,0 +1,28 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Page</title>
+
+    <div th:replace="fragments/header :: header-css"/>
+</head>
+<body>
+    <div th:replace="fragments/header :: main-menu"/>
+
+    <div class="container">
+        <div class="page-header"><h1 th:text="${title}"></h1></div>
+
+        <p>Данный проект создан для практики использования Spring Framework и прочих технологий, необходимых для создания приложений.</p>
+        <p>Основу приложения составляет Spring Boot. Оформление основано на фреймворке Bootstrap. Содержание и оформление подвергаются изменениям по мере добавления нового функционала.</p>
+
+        <br />
+        <p>Пункты меню указывают на следующие части функционала приложения:</p>
+        <ul>
+            <li><strong>Транзакция:</strong> использование Spring Transaction на примере перевода сумм между счетами аккаунтов.
+            <a href="https://docs.spring.io/spring/docs/3.0.x/javadoc-api/org/springframework/transaction/annotation/Propagation.html#REQUIRED">Ссылка на документацию</a>
+            </li>
+        </ul>
+
+    </div>
+
+    <div th:replace="fragments/footer :: footer"/>
+</body>
+</html>

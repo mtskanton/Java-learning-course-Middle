@@ -13,21 +13,12 @@ import org.springframework.web.bind.annotation.RequestParam;
  * Контроллер стартовой страницы.
  */
 @Controller
-public class PageController {
-
-    @Autowired
-    AccountService accountService;
+public class HomeController {
 
     @GetMapping("/")
     public String indexPage(Model model) {
-        model.addAttribute("message", "message example");
-        return "page";
+        model.addAttribute("title", "Описание проекта");
+        return "home";
     }
 
-    @GetMapping("/account/{id}")
-    public String getAccountInfoById(Model model, @PathVariable("id") int id) {
-        Account account = this.accountService.getAccount(id);
-        model.addAttribute("account", account);
-        return "account";
-    }
 }
