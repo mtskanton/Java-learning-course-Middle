@@ -10,6 +10,30 @@
 
     <div class="container">
         <div class="page-header"><h1>Страница входа</h1></div>
+
+        <div class="alert alert-danger" th:if="${param.error}"><strong>Ошибка аутентификации.</strong> Попробуйте еще раз.</div>
+
+        <div class="col-xs-4">
+            <form class="well" th:action="@{/login}" method="post">
+                <div class="form-group">
+                    <label>Логин</label>
+                    <input class="form-control" type="text" name="login" required="required"/>
+                </div>
+                <div class="form-group">
+                    <label>Пароль</label>
+                    <input class="form-control" type="password" name="password" required="required"/>
+                </div>
+                <input class="btn btn-default" type="submit" value="Войти"/>
+            </form>
+        </div>
+
+        <div class="col-xs-4">
+            <dl class="dl-horizontal">
+                <dt>user 123</dt><dd>Для входа на страницу пользователя</dd>
+                <dt>admin 123</dt><dd>Для входа на любую страницу, требующую авторизации</dd>
+            </dl>
+        </div>
+
     </div>
 
 <div th:replace="fragments/footer :: footer"/>
