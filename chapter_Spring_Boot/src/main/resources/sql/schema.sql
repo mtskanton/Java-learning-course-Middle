@@ -33,5 +33,15 @@ CREATE TABLE IF NOT EXISTS users_roles (
     CONSTRAINT users_roles_roles_id_fk FOREIGN KEY (role_id) REFERENCES roles (id)
 );
 
+DROP TABLE IF EXISTS persistent_logins;
+
+CREATE TABLE IF NOT EXISTS persistent_logins (
+    username VARCHAR(64) NOT NULL,
+    series VARCHAR(64) NOT NULL,
+    token VARCHAR(64) NOT NULL,
+    last_used TIMESTAMP NOT NULL,
+    PRIMARY KEY (series)
+);
+
 
 
