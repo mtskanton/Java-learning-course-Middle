@@ -14,7 +14,7 @@ DROP TABLE IF EXISTS roles;
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL,
     name VARCHAR(100),
-    login VARCHAR(100) UNIQUE,
+    email VARCHAR(100) UNIQUE,
     password VARCHAR(128),
     enabled BOOLEAN DEFAULT TRUE,
     CONSTRAINT users_pk PRIMARY KEY (id)

@@ -7,7 +7,7 @@ public class User {
 
     private int id;
     private String name;
-    private String login;
+    private String email;
     private String password;
     private boolean enabled;
 
@@ -27,12 +27,12 @@ public class User {
         this.name = name;
     }
 
-    public String getLogin() {
-        return login;
+    public String getEmail() {
+        return email;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {

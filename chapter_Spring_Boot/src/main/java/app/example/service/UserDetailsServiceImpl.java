@@ -24,8 +24,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private UserDao users;
 
     @Override
-    public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-        User user = this.users.getUserByLogin(login);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = this.users.getUserByLogin(email);
 
         List<String> roles = this.users.getUserRoles(user.getId());
 
@@ -37,7 +37,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
 
         return new org.springframework.security.core.userdetails.User(
-                user.getLogin(),
+                user.getEmail(),
                 user.getPassword(),
                 authorities);
     }

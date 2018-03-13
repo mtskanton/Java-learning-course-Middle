@@ -23,9 +23,9 @@ public class UserDao {
         this.template = new JdbcTemplate(dataSource);
     }
 
-    public User getUserByLogin(String login) {
-        String sql = "SELECT * FROM users WHERE login = ?";
-        Object[] params = new Object[]{login};
+    public User getUserByLogin(String email) {
+        String sql = "SELECT * FROM users WHERE email = ?";
+        Object[] params = new Object[]{email};
         try {
             return this.template.queryForObject(sql, params, new UserMapper());
         } catch (EmptyResultDataAccessException e) {
