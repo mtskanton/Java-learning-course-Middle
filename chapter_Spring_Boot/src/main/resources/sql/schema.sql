@@ -43,5 +43,29 @@ CREATE TABLE IF NOT EXISTS persistent_logins (
     PRIMARY KEY (series)
 );
 
+DROP TABLE IF EXISTS companies;
+DROP TABLE IF EXISTS cities;
+DROP TABLE IF EXISTS regions;
 
+CREATE TABLE IF NOT EXISTS regions (
+    id SERIAL PRIMARY KEY,
+    region VARCHAR (100)
+);
+
+CREATE TABLE IF NOT EXISTS cities (
+    id SERIAL PRIMARY KEY,
+    city VARCHAR (100),
+    region_id INT NOT NULL,
+    CONSTRAINT cities_region_id_fk FOREIGN KEY (region_id) REFERENCES regions (id)
+);
+
+CREATE TABLE IF NOT EXISTS companies (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR (100),
+    region_id INT NOT NULL,
+    city_id INT NOT NULL,
+    address VARCHAR (255),
+    CONSTRAINT companies_region_id_fk FOREIGN KEY (region_id) REFERENCES regions (id),
+    CONSTRAINT companies_cities_id_fk FOREIGN KEY (city_id) REFERENCES cities (id)
+);
 

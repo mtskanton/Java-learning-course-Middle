@@ -11,3 +11,17 @@ INSERT INTO roles VALUES (DEFAULT, 'ROLE_USER');
 INSERT INTO users_roles VALUES (1, 1);
 INSERT INTO users_roles VALUES (1, 2);
 INSERT INTO users_roles VALUES (2, 2);
+
+INSERT INTO regions VALUES (DEFAULT, 'Самарская область');
+INSERT INTO regions VALUES (DEFAULT, 'Московская оласть');
+INSERT INTO regions VALUES (DEFAULT, 'Ленинградская область');
+
+INSERT INTO cities VALUES (DEFAULT, 'Самара', 1);
+INSERT INTO cities VALUES (DEFAULT, 'Тольятти', 1);
+INSERT INTO cities VALUES (DEFAULT, 'Жигулевск', 1);
+INSERT INTO cities VALUES (DEFAULT, 'Москва', 2);
+INSERT INTO cities VALUES (DEFAULT, 'Химки', 2);
+INSERT INTO cities VALUES (DEFAULT, 'Санкт-Петербург', 3);
+INSERT INTO cities VALUES (DEFAULT, 'Тосно', 3);
+
+INSERT INTO companies VALUES (DEFAULT, 'Фокс', 1, 2, 'Мира-94');
