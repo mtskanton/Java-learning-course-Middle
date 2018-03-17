@@ -5,3 +5,7 @@ h1 {
 .error {
     color : crimson;
 }
+
+.img-item {
+    padding : 4px;
+}
