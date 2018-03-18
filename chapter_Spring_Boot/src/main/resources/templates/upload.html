@@ -12,11 +12,17 @@
     <div class="page-header"><h1>Страница загрузки файлов</h1></div>
 
     <div class="col-sm-12">
-        <span th:each="filename : ${files}">
+        <div th:each="filename : ${files}">
             <div class="col-sm-4 img-item">
                 <img class="img-responsive" th:src="@{/img/} + ${filename}"/>
             </div>
-        </span>
+        </div>
+    </div>
+
+    <div class="col-sm-12">
+        <div th:if="${result}">
+            <div class="alert alert-info" th:text="${result}"></div>
+        </div>
     </div>
 
     <div class="col-sm-6">

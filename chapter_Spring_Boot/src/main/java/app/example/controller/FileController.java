@@ -1,12 +1,14 @@
 package app.example.controller;
 
+import app.example.form.UploadForm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.ServletContext;
 import java.io.BufferedOutputStream;
@@ -25,9 +27,11 @@ public class FileController {
     @Autowired
     ServletContext servletContext;
 
+    private final String DEFAULT_DIRECTORY = "img";
+
     @GetMapping("/upload")
     public String uploadPage(Model model) {
-        File dir = new File(servletContext.getRealPath("img"));
+        File dir = new File(servletContext.getRealPath(DEFAULT_DIRECTORY));
         List<String> filenames = new ArrayList<>();
         if (dir.exists()) {
             File[] files = dir.listFiles();
@@ -40,12 +44,47 @@ public class FileController {
     }
 
     @PostMapping("/upload")
-    public String uploadFiles(@RequestParam("file") MultipartFile[] files) {
-        this.doUpload(files);
+    public String uploadFiles(@RequestParam("file") MultipartFile[] files, RedirectAttributes redirectAttributes) {
+        String result = "";
+        try {
+            result = this.doUpload(files, DEFAULT_DIRECTORY);
+            if (result.equals("")) {
+                redirectAttributes.addFlashAttribute("result", "Выберите файл для загрузки");
+            } else {
+                redirectAttributes.addFlashAttribute("result", "Загрузка успешно выполнена");
+            }
+        } catch (IOException e) {
+            redirectAttributes.addFlashAttribute("result", "Ошибка при загрузке: " + e.getMessage());
+        }
         return "redirect:upload";
     }
 
-    private void doUpload(MultipartFile[] files) {
+    @GetMapping("/restUpload")
+    public String restUploadPage() {
+        return "restUpload";
+    }
+
+    @PostMapping("/restUpload")
+    @ResponseBody
+    public ResponseEntity<?> restUploadFiles(@ModelAttribute UploadForm uploadForm) {
+        String result = null;
+        try {
+            String directory = (uploadForm.getDirectory().isEmpty()) ? DEFAULT_DIRECTORY : uploadForm.getDirectory();
+            result = this.doUpload(uploadForm.getFiles(), directory);
+        } catch (IOException e) {
+            return new ResponseEntity<>("Ошибка: " + e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+        if (result.equals("")) {
+            return new ResponseEntity<>("Выберите файл для загрузки", HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Загрузка успешно выполнена : <br/>" + result, HttpStatus.OK);
+    }
+
+    private String doUpload(MultipartFile[] files, String folder) throws IOException{
+
+        String result = "";
+        StringBuilder sb = new StringBuilder();
+
         File dir = new File(servletContext.getRealPath("") + File.separator + "img");
         if (!dir.exists()) {
             dir.mkdirs();
@@ -54,15 +93,15 @@ public class FileController {
             if (!file.isEmpty()) {
                 String filename = file.getOriginalFilename();
                 File uploadedFile = new File (dir.getAbsolutePath() + File.separator + filename);
-
-                try (BufferedOutputStream output = new BufferedOutputStream(new FileOutputStream(uploadedFile))) {
-                    byte[] bytes = file.getBytes();
-                    output.write(bytes);
-                    output.flush();
-                } catch (IOException ioe) {
-                    ioe.printStackTrace();
-                }
+                BufferedOutputStream output = new BufferedOutputStream(new FileOutputStream(uploadedFile));
+                byte[] bytes = file.getBytes();
+                output.write(bytes);
+                output.flush();
+                output.close();
+                sb.append(folder).append("/").append(filename).append("<br />");
+                result = sb.toString();
             }
         }
+        return result;
     }
 }
