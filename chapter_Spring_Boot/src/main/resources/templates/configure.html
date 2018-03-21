@@ -1,0 +1,28 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Configuration</title>
+
+    <div th:replace="fragments/header :: header-css"/>
+
+</head>
+<body>
+<div th:replace="fragments/header :: main-menu"/>
+
+<div class="container">
+    <div class="page-header"><h1>Конфигурация</h1></div>
+
+    <p>Значения базовой конфигурации c использованием аннотации <strong>@Value</strong> для каждого значения</p>
+    <div th:text="${basicProperties.email}"></div>
+    <div th:text="${basicProperties.title}"></div>
+    <div th:text="${basicProperties.number}"></div>
+
+    <br/><br/>
+    <p>Значения конфигурации c использованием аннотации <strong>@ConfigurationProperties</strong> в классе</p>
+    <div th:text="${secondProperties.email}"></div>
+    <div th:text="${secondProperties.title}"></div>
+    <div th:text="${secondProperties.number}"></div>
+</div>
+
+<div th:replace="fragments/footer :: footer"/>
+</body>
+</html>
